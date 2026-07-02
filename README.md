@@ -26,14 +26,18 @@ This runner is intended for local testing and SDK wiring checks. It is not a dep
 1. Set environment variables (copy from `.env.example` if needed):
 
 ```bash
-export CURVE_API_KEY=your_thinkfeel_api_key
-export CURVE_PERSONA_ID=your_persona_uuid
+export THINKFEEL_API_KEY=your_thinkfeel_api_key
+export THINKFEEL_PERSONA_ID=your_persona_uuid
 ```
 
 Optional:
 
 - `CURVE_PROMPT` (default: `hey what's up?`)
 - `THINKFEEL_BASE_URL` (default: `https://playground.curvelabs.org/api/v1`)
+
+Legacy fallback:
+
+- `CURVE_API_KEY` and `CURVE_PERSONA_ID` are still read when the matching `THINKFEEL_*` variable is not set, but new projects should use `THINKFEEL_API_KEY` and `THINKFEEL_PERSONA_ID`.
 
 2. Install and run:
 

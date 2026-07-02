@@ -25,8 +25,8 @@ describe('POST /api/chat', () => {
   });
 
   it('returns 200 with a reply for a valid multi-turn chat history', async () => {
-    process.env.CURVE_API_KEY = 'test-key';
-    process.env.CURVE_PERSONA_ID = 'persona-default';
+    process.env.THINKFEEL_API_KEY = 'test-key';
+    process.env.THINKFEEL_PERSONA_ID = 'persona-default';
     process.env.THINKFEEL_BASE_URL = 'https://example.thinkfeel.dev/api/v1';
 
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
@@ -67,9 +67,9 @@ describe('POST /api/chat', () => {
     expect(body.model).toBe('persona-default');
   });
 
-  it('uses request personaId when provided even when CURVE_PERSONA_ID exists', async () => {
-    process.env.CURVE_API_KEY = 'test-key';
-    process.env.CURVE_PERSONA_ID = 'persona-default';
+  it('uses request personaId when provided even when THINKFEEL_PERSONA_ID exists', async () => {
+    process.env.THINKFEEL_API_KEY = 'test-key';
+    process.env.THINKFEEL_PERSONA_ID = 'persona-default';
     process.env.THINKFEEL_BASE_URL = 'https://example.thinkfeel.dev/api/v1';
 
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
@@ -122,8 +122,8 @@ describe('POST /api/chat', () => {
   });
 
   it('returns provider error when upstream fails', async () => {
-    process.env.CURVE_API_KEY = 'test-key';
-    process.env.CURVE_PERSONA_ID = 'persona-default';
+    process.env.THINKFEEL_API_KEY = 'test-key';
+    process.env.THINKFEEL_PERSONA_ID = 'persona-default';
 
     const fetchMock = vi.fn(async () => {
       throw new Error('upstream failure');
@@ -145,8 +145,9 @@ describe('POST /api/chat', () => {
     expect(body.error.message.length).toBeGreaterThan(0);
   });
 
-  it('returns 500 config error when CURVE_PERSONA_ID is missing and request personaId is not provided', async () => {
-    process.env.CURVE_API_KEY = 'test-key';
+  it('returns 500 config error when THINKFEEL_PERSONA_ID is missing and request personaId is not provided', async () => {
+    process.env.THINKFEEL_API_KEY = 'test-key';
+    delete process.env.THINKFEEL_PERSONA_ID;
     delete process.env.CURVE_PERSONA_ID;
 
     const request = new Request('http://localhost/api/chat', {
@@ -160,6 +161,6 @@ describe('POST /api/chat', () => {
 
     expect(response.status).toBe(500);
     expect(body.error.type).toBe('config');
-    expect(body.error.message).toContain('CURVE_PERSONA_ID');
+    expect(body.error.message).toContain('THINKFEEL_PERSONA_ID');
   });
 });

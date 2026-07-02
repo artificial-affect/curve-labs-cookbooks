@@ -19,7 +19,7 @@ Before production use, implement and verify:
 4. Observability:
    Structured logs, request IDs, error reporting, and alerting around provider/API failures.
 5. Secret and environment hygiene:
-   `CURVE_API_KEY` in a managed secret store, key rotation, and environment-scoped credentials.
+   `THINKFEEL_API_KEY` in a managed secret store, key rotation, and environment-scoped credentials.
 6. Privacy and compliance:
    Retention/deletion policy for prompts/replies and sensitive-content sanitization before persistence/analytics.
 7. Cost and reliability safeguards:
@@ -27,16 +27,20 @@ Before production use, implement and verify:
 
 ## One-Click Deploy (Vercel)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/curve-labs/curve-labs-cookbooks&root-directory=nextjs-thinkfeel-ai-sdk-example&project-name=thinkfeel-chat-cookbook&env=CURVE_API_KEY,CURVE_PERSONA_ID&envDescription=ThinkFeel%20API%20key%20and%20default%20persona%20UUID)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/curve-labs/curve-labs-cookbooks&root-directory=nextjs-thinkfeel-ai-sdk-example&project-name=thinkfeel-chat-cookbook&env=THINKFEEL_API_KEY,THINKFEEL_PERSONA_ID&envDescription=ThinkFeel%20API%20key%20and%20default%20persona%20UUID)
 
 Required environment variables:
 
-- `CURVE_API_KEY`
-- `CURVE_PERSONA_ID`
+- `THINKFEEL_API_KEY`
+- `THINKFEEL_PERSONA_ID`
 
 Optional:
 
 - `THINKFEEL_BASE_URL` (defaults to `https://playground.curvelabs.org/api/v1`)
+
+Legacy fallback:
+
+- Existing deployments that still define `CURVE_API_KEY` and `CURVE_PERSONA_ID` continue to work when the matching `THINKFEEL_*` variable is absent. Prefer `THINKFEEL_API_KEY` and `THINKFEEL_PERSONA_ID` for all new setup.
 
 After deploy, open `/chat` for the full chat interface.
 

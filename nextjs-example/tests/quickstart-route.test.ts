@@ -25,8 +25,8 @@ describe('POST /api/quickstart', () => {
   });
 
   it('returns 200 with generated text for a valid prompt', async () => {
-    process.env.CURVE_API_KEY = 'test-key';
-    process.env.CURVE_PERSONA_ID = 'persona-default';
+    process.env.THINKFEEL_API_KEY = 'test-key';
+    process.env.THINKFEEL_PERSONA_ID = 'persona-default';
     process.env.THINKFEEL_BASE_URL = 'https://example.thinkfeel.dev/api/v1';
 
     const fetchMock = vi.fn(
@@ -59,9 +59,9 @@ describe('POST /api/quickstart', () => {
     expect(body.model).toBe('persona-default');
   });
 
-  it('uses request personaId when provided even when CURVE_PERSONA_ID exists', async () => {
-    process.env.CURVE_API_KEY = 'test-key';
-    process.env.CURVE_PERSONA_ID = 'persona-default';
+  it('uses request personaId when provided even when THINKFEEL_PERSONA_ID exists', async () => {
+    process.env.THINKFEEL_API_KEY = 'test-key';
+    process.env.THINKFEEL_PERSONA_ID = 'persona-default';
     process.env.THINKFEEL_BASE_URL = 'https://example.thinkfeel.dev/api/v1';
 
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
@@ -110,7 +110,9 @@ describe('POST /api/quickstart', () => {
     expect(body.error.type).toBe('validation');
   });
 
-  it('returns 500 config error when CURVE_API_KEY and CURVE_PERSONA_ID are both missing', async () => {
+  it('returns 500 config error when THINKFEEL_API_KEY and THINKFEEL_PERSONA_ID are both missing', async () => {
+    delete process.env.THINKFEEL_API_KEY;
+    delete process.env.THINKFEEL_PERSONA_ID;
     delete process.env.CURVE_API_KEY;
     delete process.env.CURVE_PERSONA_ID;
 
@@ -127,8 +129,9 @@ describe('POST /api/quickstart', () => {
     expect(body.error.type).toBe('config');
   });
 
-  it('returns 500 config error when CURVE_PERSONA_ID is missing and request personaId is not provided', async () => {
-    process.env.CURVE_API_KEY = 'test-key';
+  it('returns 500 config error when THINKFEEL_PERSONA_ID is missing and request personaId is not provided', async () => {
+    process.env.THINKFEEL_API_KEY = 'test-key';
+    delete process.env.THINKFEEL_PERSONA_ID;
     delete process.env.CURVE_PERSONA_ID;
 
     const request = new Request('http://localhost/api/quickstart', {
@@ -142,6 +145,6 @@ describe('POST /api/quickstart', () => {
 
     expect(response.status).toBe(500);
     expect(body.error.type).toBe('config');
-    expect(body.error.message).toContain('CURVE_PERSONA_ID');
+    expect(body.error.message).toContain('THINKFEEL_PERSONA_ID');
   });
 });
