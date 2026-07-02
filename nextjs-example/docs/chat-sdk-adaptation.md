@@ -12,7 +12,7 @@ import { createOpenAI } from '@ai-sdk/openai';
 import { resolveThinkFeelConfig } from '@/src/lib/thinkfeel-provider';
 
 const { apiKey, baseURL } = resolveThinkFeelConfig(process.env);
-if (!apiKey) throw new Error('Missing CURVE_API_KEY environment variable.');
+if (!apiKey) throw new Error('Missing THINKFEEL_API_KEY environment variable.');
 
 export const thinkfeel = createOpenAI({
   apiKey,
@@ -79,6 +79,7 @@ Your UI should wait for one full reply payload per request. Do not assume token 
 
 ## Notes
 
-- Keep server-side secret handling for `CURVE_API_KEY`.
+- Keep server-side secret handling for `THINKFEEL_API_KEY`.
+- Existing `CURVE_API_KEY` deployments can keep running as a legacy fallback, but new setup should use `THINKFEEL_API_KEY`.
 - Keep explicit persona UUID validation in your API route.
 - For multi-turn chat, include full history in each request.

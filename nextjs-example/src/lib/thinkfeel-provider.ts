@@ -11,10 +11,14 @@ function readEnvVar(env: NodeJS.ProcessEnv, key: string) {
   return value && value.length > 0 ? value : undefined;
 }
 
+function readEnvVarWithFallback(env: NodeJS.ProcessEnv, key: string, legacyKey: string) {
+  return readEnvVar(env, key) ?? readEnvVar(env, legacyKey);
+}
+
 export function resolveThinkFeelConfig(env?: NodeJS.ProcessEnv) {
   const runtimeEnv = resolveServerEnv(env);
-  const apiKey = readEnvVar(runtimeEnv, 'CURVE_API_KEY');
-  const defaultPersonaId = readEnvVar(runtimeEnv, 'CURVE_PERSONA_ID');
+  const apiKey = readEnvVarWithFallback(runtimeEnv, 'THINKFEEL_API_KEY', 'CURVE_API_KEY');
+  const defaultPersonaId = readEnvVarWithFallback(runtimeEnv, 'THINKFEEL_PERSONA_ID', 'CURVE_PERSONA_ID');
   const baseURL = readEnvVar(runtimeEnv, 'THINKFEEL_BASE_URL') ?? DEFAULT_THINKFEEL_BASE_URL;
 
   return { apiKey, defaultPersonaId, baseURL };
@@ -31,7 +35,7 @@ export function resolvePersonaId(personaId: string | undefined, env?: NodeJS.Pro
 export function createThinkFeelProvider(options: ProviderOptions = {}) {
   const env = resolveServerEnv(options.env);
   const { apiKey, baseURL } = resolveThinkFeelConfig(env);
-  if (!apiKey) throw new Error('Missing CURVE_API_KEY environment variable.');
+  if (!apiKey) throw new Error('Missing THINKFEEL_API_KEY environment variable.');
 
   return createOpenAI({ apiKey, baseURL, fetch: options.fetch });
 }

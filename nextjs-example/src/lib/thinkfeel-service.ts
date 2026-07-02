@@ -8,7 +8,7 @@ type ServiceOptions = { fetch?: typeof fetch; env?: NodeJS.ProcessEnv };
 
 function requirePersonaId(personaId: string | undefined) {
   if (!personaId) {
-    throw new AppError('config', 'Missing personaId. Provide personaId in the request or set CURVE_PERSONA_ID.', 500);
+    throw new AppError('config', 'Missing personaId. Provide personaId in the request or set THINKFEEL_PERSONA_ID.', 500);
   }
 
   return personaId;
@@ -23,7 +23,7 @@ export async function runQuickstart(request: QuickstartRequest, options: Service
     return { text, model: personaId };
   } catch (error) {
     if (error instanceof AppError) throw error;
-    if (error instanceof Error && error.message.includes('CURVE_API_KEY')) throw new AppError('config', error.message, 500);
+    if (error instanceof Error && error.message.includes('THINKFEEL_API_KEY')) throw new AppError('config', error.message, 500);
 
     throw new AppError('provider', error instanceof Error ? error.message : 'Provider call failed.', 502);
   }
@@ -41,7 +41,7 @@ export async function runChat(request: ChatRequest, options: ServiceOptions = {}
     return { reply: text, model: personaId };
   } catch (error) {
     if (error instanceof AppError) throw error;
-    if (error instanceof Error && error.message.includes('CURVE_API_KEY')) throw new AppError('config', error.message, 500);
+    if (error instanceof Error && error.message.includes('THINKFEEL_API_KEY')) throw new AppError('config', error.message, 500);
 
     throw new AppError('provider', error instanceof Error ? error.message : 'Provider call failed.', 502);
   }

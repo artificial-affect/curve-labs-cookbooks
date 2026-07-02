@@ -36,7 +36,7 @@ describe('ThinkFeel provider wiring', () => {
     const provider = createThinkFeelProvider({
       env: {
         NODE_ENV: 'test',
-        CURVE_API_KEY: 'test-key',
+        THINKFEEL_API_KEY: 'test-key',
         THINKFEEL_BASE_URL: 'https://example.thinkfeel.dev/api/v1',
       },
       fetch: fetchMock as typeof fetch,
