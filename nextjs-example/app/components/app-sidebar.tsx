@@ -32,7 +32,7 @@ const sdkItems: InternalItem[] = [
 ];
 
 const resourceItems: ExternalItem[] = [
-  { href: 'https://www.curvelabs.org/documentation', label: 'Docs', icon: BookOpenTextIcon },
+  { href: 'https://docs.curvelabs.org', label: 'Docs', icon: BookOpenTextIcon },
   { href: 'https://playground.curvelabs.org', label: 'Playground', icon: ExternalLinkIcon },
   { href: 'https://github.com/artificial-affect', label: 'GitHub', icon: GithubIcon },
 ];
