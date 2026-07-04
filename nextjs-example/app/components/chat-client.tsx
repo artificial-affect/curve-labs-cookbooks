@@ -4,9 +4,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ApiAccessNote } from '@/app/components/api-access-note';
-import { Loader2Icon, MessageCircleMore, RotateCcw, Send } from 'lucide-react';
-import type { ApiErrorResponse, ChatMessage, ChatResponse } from '@/src/lib/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Send, RotateCcw, Loader2Icon, MessageCircleMore } from 'lucide-react';
+import type { ChatMessage, ChatResponse, ApiErrorResponse } from '@/src/lib/types';
+import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
 import { type SubmitEvent, type KeyboardEvent, useRef, useMemo, Fragment, useState, useEffect } from 'react';
 
 type Turn = ChatMessage & { id: string };
@@ -36,10 +36,10 @@ const starterMessages: PromptPreset[] = [
 
 export function ChatClient() {
   const [input, setInput] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedStarterIndex, setSelectedStarterIndex] = useState<number>(0);
   const [messages, setMessages] = useState<Turn[]>([]);
+  const [selectedStarterIndex, setSelectedStarterIndex] = useState<number>(0);
 
   const formRef = useRef<HTMLFormElement>(null);
   const transcriptRef = useRef<HTMLUListElement>(null);
@@ -49,18 +49,19 @@ export function ChatClient() {
   useEffect(() => {
     const element = transcriptRef.current;
     if (!element) return;
+
     element.scrollTop = element.scrollHeight;
   }, [transcript.length, isLoading]);
 
   async function sendMessage(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!input.trim() || isLoading) return;
-
     const outgoingTurn: Turn = { id: createTurnId(), role: 'user', content: input.trim() };
-    const history = [...messages, outgoingTurn];
 
+    const history = [...messages, outgoingTurn];
     setMessages(history);
     setInput('');
+
     setIsLoading(true);
     setError('');
 
@@ -68,9 +69,7 @@ export function ChatClient() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: history.map(({ role, content }) => ({ role, content })),
-        }),
+        body: JSON.stringify({ messages: history.map(({ role, content }) => ({ role, content })) }),
       });
 
       if (!response.ok) {
@@ -90,6 +89,7 @@ export function ChatClient() {
   function resetConversation() {
     setMessages([]);
     setInput(starterMessages[selectedStarterIndex].message);
+
     setError('');
   }
 

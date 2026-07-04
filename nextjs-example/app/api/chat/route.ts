@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { runChat } from '@/src/lib/thinkfeel-service';
 import { chatRequestSchema } from '@/src/lib/schemas';
 import { mapErrorToResponse } from '@/src/lib/errors';
+import { runChat } from '@/src/lib/thinkfeel-service';
 import { resolveServerEnv } from '@/src/lib/thinkfeel-provider';
 
 export async function POST(request: Request) {

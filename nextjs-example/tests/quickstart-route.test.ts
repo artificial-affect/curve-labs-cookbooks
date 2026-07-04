@@ -12,8 +12,8 @@ describe('POST /api/quickstart', () => {
   it('returns 400 validation error when body is invalid JSON', async () => {
     const request = new Request('http://localhost/api/quickstart', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: '{"prompt":',
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
@@ -47,8 +47,8 @@ describe('POST /api/quickstart', () => {
 
     const request = new Request('http://localhost/api/quickstart', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: 'hello' }),
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
@@ -67,6 +67,7 @@ describe('POST /api/quickstart', () => {
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
       const bodyRaw = String(init?.body ?? '');
       const body = JSON.parse(bodyRaw) as { model: string };
+
       expect(body.model).toBe('persona-from-request');
 
       return new Response(
@@ -99,8 +100,8 @@ describe('POST /api/quickstart', () => {
   it('returns 400 validation error for an empty prompt', async () => {
     const request = new Request('http://localhost/api/quickstart', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: '' }),
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
@@ -113,13 +114,14 @@ describe('POST /api/quickstart', () => {
   it('returns 500 config error when THINKFEEL_API_KEY and THINKFEEL_PERSONA_ID are both missing', async () => {
     delete process.env.THINKFEEL_API_KEY;
     delete process.env.THINKFEEL_PERSONA_ID;
+
     delete process.env.CURVE_API_KEY;
     delete process.env.CURVE_PERSONA_ID;
 
     const request = new Request('http://localhost/api/quickstart', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: 'hello' }),
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
@@ -136,8 +138,8 @@ describe('POST /api/quickstart', () => {
 
     const request = new Request('http://localhost/api/quickstart', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: 'hello' }),
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);

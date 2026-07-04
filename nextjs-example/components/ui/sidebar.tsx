@@ -1,9 +1,13 @@
 'use client';
+import { cn } from '@/src/lib/utils';
+import { Slot } from '@radix-ui/react-slot';
+import { Button } from '@/components/ui/button';
+import { XIcon, PanelLeftIcon } from 'lucide-react';
 import {
   type Dispatch,
   type CSSProperties,
-  type SetStateAction,
   type ComponentProps,
+  type SetStateAction,
   useMemo,
   useState,
   useEffect,
@@ -12,10 +16,6 @@ import {
   useCallback,
   createContext,
 } from 'react';
-import { cn } from '@/src/lib/utils';
-import { Slot } from '@radix-ui/react-slot';
-import { Button } from '@/components/ui/button';
-import { PanelLeftIcon, XIcon } from 'lucide-react';
 
 const SIDEBAR_WIDTH = '16rem';
 const SIDEBAR_WIDTH_MOBILE = '18rem';
@@ -311,15 +311,15 @@ SidebarTrigger.displayName = 'SidebarTrigger';
 export {
   Sidebar,
   SidebarMenu,
-  SidebarInset,
   SidebarGroup,
-  SidebarHeader,
+  SidebarInset,
   SidebarFooter,
-  SidebarTrigger,
+  SidebarHeader,
   SidebarContent,
-  SidebarProvider,
+  SidebarTrigger,
   SidebarMenuItem,
-  SidebarMenuButton,
+  SidebarProvider,
   SidebarGroupLabel,
+  SidebarMenuButton,
   SidebarGroupContent,
 };

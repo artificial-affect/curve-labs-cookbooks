@@ -2,14 +2,14 @@ import '@/app/globals.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { AppSidebar } from '@/app/components/app-sidebar';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarTrigger, SidebarProvider } from '@/components/ui/sidebar';
 
 const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' });
 
 export const metadata: Metadata = {
   title: 'ThinkFeel Chat Cookbook',
-  description: 'Barebones functional ThinkFeel multi-turn chat + quickstart demo built with Next.js and Vercel AI SDK.',
+  description: 'Barebones functional ThinkFeel quickstart, chat, and personify demo built with Next.js.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

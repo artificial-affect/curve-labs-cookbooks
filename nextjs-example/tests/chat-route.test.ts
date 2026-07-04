@@ -12,8 +12,8 @@ describe('POST /api/chat', () => {
   it('returns 400 validation error when body is invalid JSON', async () => {
     const request = new Request('http://localhost/api/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: '{"messages":',
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await chatPost(request);

@@ -23,7 +23,7 @@ This repository contains two cookbook examples:
 
 This runner is intended for local testing and SDK wiring checks. It is not a deployed service and has no built-in user auth, tenancy isolation, or runtime abuse controls.
 
-1. Set environment variables (copy from `.env.example` if needed):
+1. Set environment variables (copy from `env.example` if needed):
 
 ```bash
 export THINKFEEL_API_KEY=your_thinkfeel_api_key
@@ -34,6 +34,7 @@ Optional:
 
 - `CURVE_PROMPT` (default: `hey what's up?`)
 - `THINKFEEL_BASE_URL` (default: `https://playground.curvelabs.org/api/v1`)
+- `THINKFEEL_PERSONIFY_RAW` (when set, also checks native SDK `personify`)
 
 Legacy fallback:
 
@@ -45,6 +46,9 @@ Legacy fallback:
 npm install
 npm start
 ```
+
+The root runner uses `THINKFEEL_BASE_URL` for OpenAI-compatible `/completions` calls. For the native SDK, it strips `/api/v1` and calls `/api/v1/generate` and `/api/v1/personify` through the SDK client.
+The native `personify` check only succeeds for persona IDs currently enabled for Playground `/api/v1/personify`.
 
 3. Run offline tests:
 

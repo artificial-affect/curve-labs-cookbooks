@@ -1,12 +1,12 @@
 # ThinkFeel Chat Cookbook (Next.js)
 
-Accessible, multi-turn chat UI example for ThinkFeel using the Vercel AI SDK (`@ai-sdk/openai`) with a ThinkFeel `baseURL`.
+Accessible quickstart, multi-turn chat, and personify UI example for ThinkFeel.
 
 ## Important Warning
 
 This project is a cookbook example and is not production-ready by default.
 
-Current API routes (`/api/chat`, `/api/quickstart`) validate payloads but do not include user authentication or authorization checks.
+Current API routes (`/api/chat`, `/api/quickstart`, `/api/personify`) validate payloads but do not include user authentication or authorization checks.
 
 Before production use, implement and verify:
 
@@ -27,7 +27,7 @@ Before production use, implement and verify:
 
 ## One-Click Deploy (Vercel)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/curve-labs/curve-labs-cookbooks&root-directory=nextjs-thinkfeel-ai-sdk-example&project-name=thinkfeel-chat-cookbook&env=THINKFEEL_API_KEY,THINKFEEL_PERSONA_ID&envDescription=ThinkFeel%20API%20key%20and%20default%20persona%20UUID)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/curve-labs/curve-labs-cookbooks&root-directory=nextjs-example&project-name=thinkfeel-chat-cookbook&env=THINKFEEL_API_KEY,THINKFEEL_PERSONA_ID&envDescription=ThinkFeel%20API%20key%20and%20default%20persona%20UUID)
 
 Required environment variables:
 
@@ -37,6 +37,7 @@ Required environment variables:
 Optional:
 
 - `THINKFEEL_BASE_URL` (defaults to `https://playground.curvelabs.org/api/v1`)
+- `THINKFEEL_PERSONIFY_RAW` (only used by optional live personify smoke tests)
 
 Legacy fallback:
 
@@ -47,7 +48,7 @@ After deploy, open `/chat` for the full chat interface.
 ## Local Setup
 
 ```bash
-cp .env.example .env.local
+cp env.example .env.local
 npm install
 npm run dev
 ```
@@ -56,13 +57,15 @@ Then open:
 
 - `http://localhost:3000/` for quickstart
 - `http://localhost:3000/chat` for multi-turn chat
+- `http://localhost:3000/personify` for native personify
 
 ## Included Features
 
-1. Accessible black/white shadcn-style UI with responsive left sidebar navigation for Quickstart + Chat.
+1. Accessible black/white shadcn-style UI with responsive left sidebar navigation for Quickstart, Chat, and Personify.
 2. Multi-turn chat route (`POST /api/chat`) using full history and non-stream replies.
 3. Quickstart route (`POST /api/quickstart`) using ThinkFeel-compatible completion calls.
-4. Error envelopes and schema validation for both routes.
+4. Personify route (`POST /api/personify`) using the native ThinkFeel `/personify` endpoint.
+5. Error envelopes and schema validation for all routes.
 
 ## Scripts
 
@@ -112,7 +115,21 @@ Response:
 { "reply": "...", "model": "persona-uuid" }
 ```
 
-Error envelope (both routes):
+### `POST /api/personify`
+
+Request:
+
+```json
+{ "raw": "Base response to rewrite", "personaId": "optional-uuid" }
+```
+
+Response:
+
+```json
+{ "personified": "...", "chunks": ["..."], "model": "persona-uuid" }
+```
+
+Error envelope (all routes):
 
 ```json
 { "error": { "type": "validation | config | provider", "message": "..." } }
@@ -121,5 +138,7 @@ Error envelope (both routes):
 ## Notes
 
 - ThinkFeel `/completions` is non-stream, so this cookbook intentionally avoids streaming route patterns.
+- ThinkFeel `/personify` is a native JSON endpoint, not an OpenAI-compatible completion endpoint.
+- Playground returns 404 when `/personify` is called with a persona ID that is not enabled for personify.
 - Tool-calling and some OpenAI-specific parameters are not currently supported by ThinkFeel `/completions`.
 - Migration details for existing Chat SDK projects: `docs/chat-sdk-adaptation.md`.

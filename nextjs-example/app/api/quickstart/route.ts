@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { mapErrorToResponse } from '@/src/lib/errors';
-import { runQuickstart } from '@/src/lib/thinkfeel-service';
 import { quickstartRequestSchema } from '@/src/lib/schemas';
+import { runQuickstart } from '@/src/lib/thinkfeel-service';
 import { resolveServerEnv } from '@/src/lib/thinkfeel-provider';
 
 export async function POST(request: Request) {

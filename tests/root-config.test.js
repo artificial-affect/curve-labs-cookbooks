@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DEFAULT_CONTENT, DEFAULT_THINKFEEL_BASE_URL, loadRuntimeConfig } from '../constants.js';
+import {
+  DEFAULT_CONTENT,
+  loadRuntimeConfig,
+  DEFAULT_THINKFEEL_BASE_URL,
+  resolveThinkFeelSdkBaseUrl,
+} from '../constants.js';
 
 test('loadRuntimeConfig fails fast when THINKFEEL_API_KEY is missing', () => {
   assert.throws(
@@ -35,6 +40,7 @@ test('loadRuntimeConfig trims values and applies defaults for blank optional var
   assert.equal(config.personaId, 'persona-123');
   assert.equal(config.content, DEFAULT_CONTENT);
   assert.equal(config.baseURL, DEFAULT_THINKFEEL_BASE_URL);
+  assert.equal(config.sdkBaseUrl, 'https://playground.curvelabs.org');
 });
 
 test('loadRuntimeConfig returns explicit optional values when provided', () => {
@@ -50,7 +56,15 @@ test('loadRuntimeConfig returns explicit optional values when provided', () => {
     content: 'custom prompt',
     personaId: 'persona-123',
     baseURL: 'https://example.thinkfeel.dev/api/v1',
+    sdkBaseUrl: 'https://example.thinkfeel.dev',
+    personifyRaw: undefined,
   });
+});
+
+test('resolveThinkFeelSdkBaseUrl strips /api/v1 only for native SDK calls', () => {
+  assert.equal(resolveThinkFeelSdkBaseUrl('https://example.thinkfeel.dev/api/v1'), 'https://example.thinkfeel.dev');
+  assert.equal(resolveThinkFeelSdkBaseUrl('https://example.thinkfeel.dev/api/v1/'), 'https://example.thinkfeel.dev');
+  assert.equal(resolveThinkFeelSdkBaseUrl('https://example.thinkfeel.dev/custom'), 'https://example.thinkfeel.dev/custom');
 });
 
 test('loadRuntimeConfig falls back to legacy CURVE variables', () => {
