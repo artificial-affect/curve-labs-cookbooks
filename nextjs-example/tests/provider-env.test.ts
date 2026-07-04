@@ -1,10 +1,10 @@
+import { it, expect, describe } from 'vitest';
 import {
-  DEFAULT_THINKFEEL_BASE_URL,
   resolvePersonaId,
   resolveThinkFeelConfig,
   createThinkFeelProvider,
+  DEFAULT_THINKFEEL_BASE_URL,
 } from '@/src/lib/thinkfeel-provider';
-import { it, expect, describe } from 'vitest';
 
 describe('ThinkFeel provider env configuration', () => {
   it('uses default base URL when THINKFEEL_BASE_URL is missing', () => {
@@ -38,13 +38,9 @@ describe('ThinkFeel provider env configuration', () => {
   });
 
   it('falls back to legacy CURVE environment variables', () => {
-    const env: NodeJS.ProcessEnv = {
-      NODE_ENV: 'test',
-      CURVE_API_KEY: 'legacy-key',
-      CURVE_PERSONA_ID: 'legacy-persona',
-    };
-
+    const env: NodeJS.ProcessEnv = { NODE_ENV: 'test', CURVE_API_KEY: 'legacy-key', CURVE_PERSONA_ID: 'legacy-persona' };
     const config = resolveThinkFeelConfig(env);
+
     expect(config.apiKey).toBe('legacy-key');
     expect(config.defaultPersonaId).toBe('legacy-persona');
   });
@@ -59,6 +55,7 @@ describe('ThinkFeel provider env configuration', () => {
     };
 
     const config = resolveThinkFeelConfig(env);
+
     expect(config.apiKey).toBe('legacy-key');
     expect(config.defaultPersonaId).toBe('legacy-persona');
   });
@@ -66,13 +63,14 @@ describe('ThinkFeel provider env configuration', () => {
   it('prefers THINKFEEL environment variables over legacy CURVE variables', () => {
     const env: NodeJS.ProcessEnv = {
       NODE_ENV: 'test',
-      THINKFEEL_API_KEY: 'new-key',
-      THINKFEEL_PERSONA_ID: 'new-persona',
       CURVE_API_KEY: 'legacy-key',
+      THINKFEEL_API_KEY: 'new-key',
       CURVE_PERSONA_ID: 'legacy-persona',
+      THINKFEEL_PERSONA_ID: 'new-persona',
     };
 
     const config = resolveThinkFeelConfig(env);
+
     expect(config.apiKey).toBe('new-key');
     expect(config.defaultPersonaId).toBe('new-persona');
   });

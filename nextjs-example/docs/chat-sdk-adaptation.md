@@ -77,6 +77,28 @@ Your UI should wait for one full reply payload per request. Do not assume token 
 - `max_tokens` support at the ThinkFeel endpoint
 - `logprobs` support at the ThinkFeel endpoint
 
+## Native `/personify`
+
+`/api/v1/personify` is a ThinkFeel JSON endpoint rather than an OpenAI-compatible completion route. Call it with your ThinkFeel API key and a persona UUID that Playground has enabled for personify:
+
+```ts
+const response = await fetch(`${baseURL}/personify`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-api-key': apiKey,
+  },
+  body: JSON.stringify({ personaId, raw }),
+});
+
+if (!response.ok) throw new Error(await response.text());
+
+const personify = (await response.json()) as {
+  chunks: string[];
+  personified: string;
+};
+```
+
 ## Notes
 
 - Keep server-side secret handling for `THINKFEEL_API_KEY`.

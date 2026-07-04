@@ -8,7 +8,7 @@ export default function HomePage() {
       <header className="space-y-4 border-b border-foreground/15 pb-6">
         <p className="mono-meta">ThinkFeel AI SDK Cookbook</p>
         <h1 className="text-balance font-serif text-3xl tracking-tighter sm:text-4xl">
-          Quickstart + Chat Adapter for ThinkFeel
+          Quickstart + Chat + Personify for ThinkFeel
         </h1>
         <p className="max-w-3xl text-sm text-muted-foreground sm:text-base font-[family-name:var(--font-geist-mono)]">
           Minimal UI. Strong focus states. ThinkFeel-first prompts.

@@ -1,10 +1,13 @@
 'use client';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   type LucideIcon,
   GithubIcon,
   SparklesIcon,
   BookOpenTextIcon,
   ExternalLinkIcon,
+  WandSparklesIcon,
   MessageSquareTextIcon,
 } from 'lucide-react';
 import {
@@ -16,12 +19,10 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarMenuItem,
-  SidebarMenuButton,
   SidebarGroupLabel,
+  SidebarMenuButton,
   SidebarGroupContent,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 type InternalItem = { href: string; label: string; icon: LucideIcon };
 type ExternalItem = { href: string; label: string; icon: LucideIcon };
@@ -29,6 +30,7 @@ type ExternalItem = { href: string; label: string; icon: LucideIcon };
 const sdkItems: InternalItem[] = [
   { href: '/', label: 'Quickstart', icon: SparklesIcon },
   { href: '/chat', label: 'Chat', icon: MessageSquareTextIcon },
+  { href: '/personify', label: 'Personify', icon: WandSparklesIcon },
 ];
 
 const resourceItems: ExternalItem[] = [
@@ -71,8 +73,8 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.href}>
                     {isActive ? (
                       <SidebarMenuButton
-                        type="button"
                         disabled
+                        type="button"
                         aria-current="page"
                         aria-label={`${item.label} (current page)`}
                         className="opacity-100 hover:bg-transparent hover:text-foreground"
@@ -126,7 +128,7 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-foreground/15 p-4">
         <div className="space-y-2">
           <p className="mono-meta text-[10px] leading-relaxed">
-            ThinkFeel `/completions` cookbook with non-stream responses.
+            ThinkFeel `/completions` and `/personify` cookbook with non-stream responses.
           </p>
           <div className="flex items-center gap-3 text-[10px]">
             {legalItems.map(item => (

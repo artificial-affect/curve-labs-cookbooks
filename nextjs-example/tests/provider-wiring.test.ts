@@ -1,5 +1,5 @@
 import { generateText } from 'ai';
-import { describe, it, expect, vi } from 'vitest';
+import { it, vi, expect, describe } from 'vitest';
 import { createThinkFeelProvider } from '@/src/lib/thinkfeel-provider';
 
 describe('ThinkFeel provider wiring', () => {
@@ -21,9 +21,9 @@ describe('ThinkFeel provider wiring', () => {
       return new Response(
         JSON.stringify({
           id: 'cmpl-1',
+          model: 'persona-123',
           object: 'text_completion',
           created: Math.floor(Date.now() / 1000),
-          model: 'persona-123',
           choices: [{ text: 'hello from thinkfeel', index: 0, logprobs: null, finish_reason: 'stop' }],
         }),
         {
@@ -34,19 +34,15 @@ describe('ThinkFeel provider wiring', () => {
     });
 
     const provider = createThinkFeelProvider({
+      fetch: fetchMock as typeof fetch,
       env: {
         NODE_ENV: 'test',
         THINKFEEL_API_KEY: 'test-key',
         THINKFEEL_BASE_URL: 'https://example.thinkfeel.dev/api/v1',
       },
-      fetch: fetchMock as typeof fetch,
     });
 
-    const result = await generateText({
-      model: provider.completion('persona-123'),
-      prompt: 'hi',
-    });
-
+    const result = await generateText({ prompt: 'hi', model: provider.completion('persona-123') });
     expect(result.text).toBe('hello from thinkfeel');
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });

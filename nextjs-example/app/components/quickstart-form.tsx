@@ -3,7 +3,7 @@ import { cn } from '@/src/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
-import { type SubmitEvent, useState, Fragment } from 'react';
+import { type SubmitEvent, Fragment, useState } from 'react';
 import { ApiAccessNote } from '@/app/components/api-access-note';
 import type { ApiErrorResponse, QuickstartResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
@@ -46,8 +46,8 @@ export function QuickstartForm() {
     try {
       const response = await fetch('/api/quickstart', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
+        headers: { 'Content-Type': 'application/json' },
       });
 
       if (!response.ok) {
