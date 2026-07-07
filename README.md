@@ -23,6 +23,8 @@ This repository contains two cookbook examples:
 
 This runner is intended for local testing and SDK wiring checks. It is not a deployed service and has no built-in user auth, tenancy isolation, or runtime abuse controls.
 
+For Codex or Claude Code setup, install the ThinkFeel Plugin from `https://docs.curvelabs.org/cli-agents`. It can create the local env file without exposing API keys in chat.
+
 1. Set environment variables (copy from `env.example` if needed):
 
 ```bash

@@ -47,6 +47,8 @@ After deploy, open `/chat` for the full chat interface.
 
 ## Local Setup
 
+For Codex or Claude Code setup, install the ThinkFeel Plugin from `https://docs.curvelabs.org/cli-agents`. It can populate `.env.local` without exposing API keys in chat.
+
 ```bash
 cp env.example .env.local
 npm install
