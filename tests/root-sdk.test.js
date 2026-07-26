@@ -23,11 +23,11 @@ test('testThinkFeel passes native SDK origin and optional personify input', asyn
 
   const result = await testThinkFeel(
     {
-      apiKey: 'test-key',
       content: 'hello',
+      apiKey: 'test-key',
       personaId: 'persona-123',
-      sdkBaseUrl: 'https://example.thinkfeel.dev',
       personifyRaw: 'neutral base response',
+      sdkBaseUrl: 'https://example.thinkfeel.dev',
     },
     { ThinkFeel: FakeThinkFeel, log: () => {} }
   );
@@ -38,8 +38,8 @@ test('testThinkFeel passes native SDK origin and optional personify input', asyn
     baseUrl: 'https://example.thinkfeel.dev',
   });
   assert.deepEqual(calls.generate, {
-    messages: [{ role: 'user', content: 'hello' }],
     includeVariations: true,
+    messages: [{ role: 'user', content: 'hello' }],
   });
   assert.deepEqual(calls.personify, { raw: 'neutral base response' });
   assert.equal(result.personifyResponse.personified, 'personified');
