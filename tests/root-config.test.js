@@ -1,11 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  DEFAULT_CONTENT,
-  loadRuntimeConfig,
-  DEFAULT_THINKFEEL_BASE_URL,
-  resolveThinkFeelSdkBaseUrl,
-} from '../constants.js';
+import { DEFAULT_CONTENT, loadRuntimeConfig, DEFAULT_THINKFEEL_BASE_URL, resolveThinkFeelSdkBaseUrl } from '../constants.js';
 
 test('loadRuntimeConfig fails fast when THINKFEEL_API_KEY is missing', () => {
   assert.throws(
@@ -53,11 +48,11 @@ test('loadRuntimeConfig returns explicit optional values when provided', () => {
 
   assert.deepEqual(config, {
     apiKey: 'test-key',
+    personifyRaw: undefined,
     content: 'custom prompt',
     personaId: 'persona-123',
-    baseURL: 'https://example.thinkfeel.dev/api/v1',
     sdkBaseUrl: 'https://example.thinkfeel.dev',
-    personifyRaw: undefined,
+    baseURL: 'https://example.thinkfeel.dev/api/v1',
   });
 });
 
@@ -91,10 +86,10 @@ test('loadRuntimeConfig treats blank THINKFEEL variables as missing before legac
 
 test('loadRuntimeConfig prefers THINKFEEL variables over legacy CURVE variables', () => {
   const config = loadRuntimeConfig({
-    THINKFEEL_API_KEY: 'new-key',
-    THINKFEEL_PERSONA_ID: 'new-persona',
     CURVE_API_KEY: 'legacy-key',
+    THINKFEEL_API_KEY: 'new-key',
     CURVE_PERSONA_ID: 'legacy-persona',
+    THINKFEEL_PERSONA_ID: 'new-persona',
   });
 
   assert.equal(config.apiKey, 'new-key');
