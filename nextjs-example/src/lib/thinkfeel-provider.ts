@@ -15,9 +15,6 @@ function readEnvVarWithFallback(env: NodeJS.ProcessEnv, key: string, legacyKey: 
   return readEnvVar(env, key) ?? readEnvVar(env, legacyKey);
 }
 
-/**
- * When callers pass base URLs with trailing slashes, keep downstream endpoint construction stable.
- */
 const normalizeBaseURL = (baseURL: string) => baseURL.replace(/\/+$/, '');
 
 export function resolveThinkFeelConfig(env?: NodeJS.ProcessEnv) {

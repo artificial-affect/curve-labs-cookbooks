@@ -14,9 +14,6 @@ function readRequiredEnvVar(env, key, legacyKey) {
   return value;
 }
 
-/**
- * When the OpenAI-compatible base URL includes /api/v1, the native SDK needs the origin only.
- */
 export function resolveThinkFeelSdkBaseUrl(baseURL) {
   const normalizedBaseURL = baseURL.replace(/\/+$/, '');
   if (normalizedBaseURL.endsWith(THINKFEEL_API_V1_SUFFIX)) return normalizedBaseURL.slice(0, -THINKFEEL_API_V1_SUFFIX.length);
