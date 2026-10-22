@@ -6,7 +6,6 @@ import {
   resolvePersonaId,
   getThinkFeelApiUrl,
   resolveThinkFeelConfig,
-  createThinkFeelProvider,
   getThinkFeelCompletionModel,
 } from '@/src/lib/thinkfeel-provider';
 
@@ -85,10 +84,8 @@ export async function runPersonify(request: PersonifyRequest, options: ServiceOp
 export async function runChat(request: ChatRequest, options: ServiceOptions = {}): Promise<ChatResponse> {
   try {
     const personaId = requirePersonaId(resolvePersonaId(request.personaId, options.env));
-    createThinkFeelProvider(options);
-
-    const prompt = formatMessagesAsCompletionPrompt(request.messages);
     const model = getThinkFeelCompletionModel(personaId, options);
+    const prompt = formatMessagesAsCompletionPrompt(request.messages);
     const { text } = await generateText({ model, prompt });
 
     return { reply: text, model: personaId };
