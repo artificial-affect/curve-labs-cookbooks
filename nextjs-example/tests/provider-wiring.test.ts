@@ -34,12 +34,12 @@ describe('ThinkFeel provider wiring', () => {
     });
 
     const provider = createThinkFeelProvider({
-      fetch: fetchMock as typeof fetch,
       env: {
         NODE_ENV: 'test',
         THINKFEEL_API_KEY: 'test-key',
         THINKFEEL_BASE_URL: 'https://example.thinkfeel.dev/api/v1',
       },
+      fetch: fetchMock as typeof fetch,
     });
 
     const result = await generateText({ prompt: 'hi', model: provider.completion('persona-123') });
