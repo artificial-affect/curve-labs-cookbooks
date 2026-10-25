@@ -48,11 +48,11 @@ test('main returns non-zero and sets process.exitCode when a runner fails', asyn
     const status = await main({
       log: () => {},
       config: SAMPLE_CONFIG,
-      error: message => (loggedMessage = String(message)),
-      runThinkFeel: async () => ({ finalReply: 'unused' }),
       runOpenAI: async () => {
         throw new Error('simulated provider failure');
       },
+      error: message => (loggedMessage = String(message)),
+      runThinkFeel: async () => ({ finalReply: 'unused' }),
     });
 
     assert.equal(status, 1);
