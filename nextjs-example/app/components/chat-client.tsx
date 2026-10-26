@@ -1,5 +1,6 @@
 'use client';
 import { cn } from '@/src/lib/utils';
+import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -194,9 +195,9 @@ export function ChatClient() {
         ) : null}
         <form ref={formRef} className="space-y-4" onSubmit={sendMessage}>
           <div className="space-y-1.5">
-            <label htmlFor="chat-input" className="text-sm font-medium">
+            <Label htmlFor="chat-input" className="text-sm font-medium">
               Message
-            </label>
+            </Label>
             <Textarea
               rows={4}
               value={input}

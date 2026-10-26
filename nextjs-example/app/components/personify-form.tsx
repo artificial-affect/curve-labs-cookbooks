@@ -1,5 +1,6 @@
 'use client';
 import { cn } from '@/src/lib/utils';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, WandSparkles } from 'lucide-react';
@@ -113,9 +114,9 @@ export function PersonifyForm() {
           <ApiAccessNote />
           <div className="space-y-1.5">
             <div className="flex items-center justify-between gap-4">
-              <label htmlFor="personify-raw" className="text-sm font-medium">
+              <Label htmlFor="personify-raw" className="text-sm font-medium">
                 Raw
-              </label>
+              </Label>
               <span className="mono-meta">{raw.trim().length}</span>
             </div>
             <Textarea
