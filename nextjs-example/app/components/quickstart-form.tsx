@@ -1,5 +1,6 @@
 'use client';
 import { cn } from '@/src/lib/utils';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
@@ -117,9 +118,9 @@ export function QuickstartForm() {
           <ApiAccessNote />
           <div className="space-y-1.5">
             <div className="flex items-center justify-between gap-4">
-              <label htmlFor="quickstart-prompt" className="text-sm font-medium">
+              <Label htmlFor="quickstart-prompt" className="text-sm font-medium">
                 Prompt
-              </label>
+              </Label>
               <span className="mono-meta">{prompt.trim().length}</span>
             </div>
             <Textarea
