@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { chatRequestSchema } from '@/src/lib/schemas';
 import { mapErrorToResponse } from '@/src/lib/errors';
 import { runChat } from '@/src/lib/thinkfeel-service';
-import { resolveServerEnv } from '@/src/lib/thinkfeel-provider';
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -20,7 +19,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await runChat(parsed.data, { env: resolveServerEnv() });
+    const result = await runChat(parsed.data);
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     return mapErrorToResponse(error);
