@@ -8,7 +8,7 @@ import { ApiAccessNote } from '@/app/components/api-access-note';
 import { Send, RotateCcw, Loader2Icon, MessageCircleMore } from 'lucide-react';
 import type { ChatMessage, ChatResponse, ApiErrorResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
-import { type SubmitEvent, type KeyboardEvent, useRef, useMemo, Fragment, useState, useEffect } from 'react';
+import { type SubmitEvent, type KeyboardEvent, useRef, Fragment, useState, useEffect } from 'react';
 
 type Turn = ChatMessage & { id: string };
 type PromptPreset = { label: string; message: string };
@@ -44,15 +44,14 @@ export function ChatClient() {
 
   const formRef = useRef<HTMLFormElement>(null);
   const transcriptRef = useRef<HTMLUListElement>(null);
-  const transcript = useMemo(() => messages, [messages]);
-  const hasTranscriptContent = transcript.length > 0 || isLoading;
+  const hasTranscriptContent = messages.length > 0 || isLoading;
 
   useEffect(() => {
     const element = transcriptRef.current;
     if (!element) return;
 
     element.scrollTop = element.scrollHeight;
-  }, [transcript.length, isLoading]);
+  }, [messages.length, isLoading]);
 
   async function sendMessage(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -156,7 +155,7 @@ export function ChatClient() {
               aria-relevant="additions text"
               className="max-h-[28rem] space-y-4 overflow-y-auto overscroll-none p-4"
             >
-              {transcript.map(message => {
+              {messages.map(message => {
                 const isAssistant = message.role === 'assistant';
 
                 return (

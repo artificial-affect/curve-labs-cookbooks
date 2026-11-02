@@ -24,22 +24,21 @@ import {
   SidebarGroupContent,
 } from '@/components/ui/sidebar';
 
-type InternalItem = { href: string; label: string; icon: LucideIcon };
-type ExternalItem = { href: string; label: string; icon: LucideIcon };
+type NavItem = { href: string; label: string; icon: LucideIcon };
 
-const sdkItems: InternalItem[] = [
+const sdkItems: NavItem[] = [
   { href: '/', label: 'Quickstart', icon: SparklesIcon },
   { href: '/chat', label: 'Chat', icon: MessageSquareTextIcon },
   { href: '/personify', label: 'Personify', icon: WandSparklesIcon },
 ];
 
-const resourceItems: ExternalItem[] = [
+const resourceItems: NavItem[] = [
   { href: 'https://docs.curvelabs.org', label: 'Docs', icon: BookOpenTextIcon },
   { href: 'https://playground.curvelabs.org', label: 'Playground', icon: ExternalLinkIcon },
   { href: 'https://github.com/artificial-affect', label: 'GitHub', icon: GithubIcon },
 ];
 
-const legalItems: Pick<ExternalItem, 'href' | 'label'>[] = [
+const legalItems: Pick<NavItem, 'href' | 'label'>[] = [
   { href: 'https://www.curvelabs.org/terms', label: 'Terms' },
   { href: 'https://www.curvelabs.org/privacy', label: 'Privacy' },
 ];
