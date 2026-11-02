@@ -22,21 +22,10 @@ const config: Config = {
           from: { opacity: '0', transform: 'translateY(4px)' },
         },
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
       animation: { 'fade-in': 'fade-in 180ms ease-out' },
-    },
-    container: {
-      center: true,
-      padding: '1rem',
-      screens: { '2xl': '1280px' },
     },
   },
   plugins: [],
-  darkMode: ['class'],
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
 };
 
