@@ -2,7 +2,7 @@ import { createOpenAI } from '@ai-sdk/openai';
 
 export async function testAISDK(config, options = {}) {
   const log = options.log ?? console.log;
-  const createProvider = options.createProvider ?? (providerOptions => createOpenAI(providerOptions));
+  const createProvider = options.createProvider ?? createOpenAI;
 
   const { apiKey, personaId, content, baseURL } = config;
 

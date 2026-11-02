@@ -19,11 +19,6 @@ function requirePersonaId(personaId: string | undefined) {
   return personaId;
 }
 
-function requireApiKey(apiKey: string | undefined) {
-  if (!apiKey) throw new AppError('config', 'Missing THINKFEEL_API_KEY environment variable.', 500);
-  return apiKey;
-}
-
 async function readProviderError(response: Response) {
   const fallback = `ThinkFeel request failed with status ${response.status}.`;
   const text = await response.text();
@@ -36,10 +31,6 @@ async function readProviderError(response: Response) {
   } catch {
     return text;
   }
-}
-
-function getFetch(options: ServiceOptions) {
-  return options.fetch ?? fetch;
 }
 
 export async function runQuickstart(request: QuickstartRequest, options: ServiceOptions = {}): Promise<QuickstartResponse> {
@@ -62,10 +53,11 @@ export async function runPersonify(request: PersonifyRequest, options: ServiceOp
   try {
     const personaId = requirePersonaId(resolvePersonaId(request.personaId, options.env));
     const { apiKey } = resolveThinkFeelConfig(options.env);
-    const response = await getFetch(options)(getThinkFeelApiUrl('/personify', options.env), {
+    if (!apiKey) throw new AppError('config', 'Missing THINKFEEL_API_KEY environment variable.', 500);
+    const response = await (options.fetch ?? fetch)(getThinkFeelApiUrl('/personify', options.env), {
       method: 'POST',
       body: JSON.stringify({ raw: request.raw, personaId }),
-      headers: { 'Content-Type': 'application/json', 'x-api-key': requireApiKey(apiKey) },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
     });
 
     if (!response.ok) throw new AppError('provider', await readProviderError(response), 502);

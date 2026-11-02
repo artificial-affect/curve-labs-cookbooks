@@ -26,7 +26,6 @@ type SidebarContextValue = {
   isMobile: boolean;
   openMobile: boolean;
   toggleSidebar: () => void;
-  setOpen: Dispatch<SetStateAction<boolean>>;
   setOpenMobile: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -54,47 +53,17 @@ export function useSidebar() {
   return context;
 }
 
-type SidebarProviderProps = ComponentProps<'div'> & {
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-};
+type SidebarProviderProps = ComponentProps<'div'> & { defaultOpen?: boolean };
 
-function SidebarProvider({
-  style,
-  children,
-  className,
-  onOpenChange,
-  open: openProp,
-  defaultOpen = true,
-  ...props
-}: SidebarProviderProps) {
+function SidebarProvider({ style, children, className, defaultOpen = true, ...props }: SidebarProviderProps) {
   const isMobile = useMobileQuery();
   const [openMobile, setOpenMobile] = useState(false);
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-
-  const open = openProp ?? uncontrolledOpen;
-  const setOpen = useCallback(
-    (value: SetStateAction<boolean>) => {
-      const next = typeof value === 'function' ? value(open) : value;
-      if (onOpenChange) {
-        onOpenChange(next);
-        return;
-      }
-
-      setUncontrolledOpen(next);
-    },
-    [onOpenChange, open]
-  );
+  const [open, setOpen] = useState(defaultOpen);
 
   const toggleSidebar = useCallback(() => {
-    if (isMobile) {
-      setOpenMobile(previous => !previous);
-      return;
-    }
-
+    if (isMobile) return setOpenMobile(previous => !previous);
     setOpen(previous => !previous);
-  }, [isMobile, setOpen]);
+  }, [isMobile]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -122,8 +91,8 @@ function SidebarProvider({
   }, [isMobile, openMobile]);
 
   const value = useMemo<SidebarContextValue>(
-    () => ({ isMobile, open, setOpen, openMobile, setOpenMobile, toggleSidebar }),
-    [isMobile, open, setOpen, openMobile, toggleSidebar]
+    () => ({ isMobile, open, openMobile, setOpenMobile, toggleSidebar }),
+    [isMobile, open, openMobile, toggleSidebar]
   );
 
   const mergedStyle = {
@@ -145,16 +114,10 @@ function SidebarProvider({
   );
 }
 
-type SidebarProps = ComponentProps<'aside'> & {
-  side?: 'left' | 'right';
-};
-
-function Sidebar({ className, children, side = 'left', ...props }: SidebarProps) {
+function Sidebar({ className, children, ...props }: ComponentProps<'aside'>) {
   const { isMobile, open, openMobile, setOpenMobile } = useSidebar();
 
   if (isMobile) {
-    const hiddenTransform = side === 'left' ? '-translate-x-full' : 'translate-x-full';
-
     return (
       <>
         <div
@@ -168,8 +131,8 @@ function Sidebar({ className, children, side = 'left', ...props }: SidebarProps)
         <aside
           className={cn(
             'fixed inset-y-0 z-50 flex h-dvh w-[--sidebar-width-mobile] flex-col overflow-hidden overscroll-none border-foreground/15 bg-secondary transition-transform md:hidden',
-            side === 'left' ? 'left-0 border-r' : 'right-0 border-l',
-            openMobile ? 'translate-x-0' : hiddenTransform,
+            'left-0 border-r',
+            openMobile ? 'translate-x-0' : '-translate-x-full',
             className
           )}
           {...props}
@@ -198,7 +161,7 @@ function Sidebar({ className, children, side = 'left', ...props }: SidebarProps)
       <div
         className={cn(
           'absolute inset-y-0 flex w-[--sidebar-width] flex-col overflow-hidden overscroll-none bg-secondary/30 transition-opacity duration-200',
-          side === 'left' ? 'left-0 border-r border-foreground/15' : 'right-0 border-l border-foreground/15',
+          'left-0 border-r border-foreground/15',
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}
       >
