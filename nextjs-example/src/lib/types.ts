@@ -1,14 +1,14 @@
 export type ChatMessageRole = 'user' | 'assistant' | 'system' | 'developer';
-export type ChatMessage = { role: ChatMessageRole; content: string };
+export type ChatMessage = { content: string; role: ChatMessageRole };
 
-export type QuickstartRequest = { personaId?: string; prompt: string };
+export type QuickstartRequest = { prompt: string; personaId?: string };
 export type QuickstartResponse = { text: string; model: string };
 
 export type ChatRequest = { personaId?: string; messages: ChatMessage[] };
 export type ChatResponse = { reply: string; model: string };
 
-export type PersonifyRequest = { personaId?: string; raw: string };
-export type PersonifyResponse = { personified: string; chunks: string[]; model: string };
+export type PersonifyRequest = { raw: string; personaId?: string };
+export type PersonifyResponse = { model: string; chunks: string[]; personified: string };
 
 export type ApiErrorType = 'validation' | 'config' | 'provider';
-export type ApiErrorResponse = { error: { type: ApiErrorType; message: string } };
+export type ApiErrorResponse = { error: { message: string; type: ApiErrorType } };

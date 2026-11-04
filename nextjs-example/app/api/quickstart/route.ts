@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const parsed = quickstartRequestSchema.safeParse(body);
   if (!parsed.success) {
     const message = parsed.error.issues[0]?.message ?? 'Invalid request body.';
-    return NextResponse.json({ error: { type: 'validation', message } }, { status: 400 });
+    return NextResponse.json({ error: { message, type: 'validation' } }, { status: 400 });
   }
 
   try {

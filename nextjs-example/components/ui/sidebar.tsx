@@ -91,7 +91,7 @@ function SidebarProvider({ style, children, className, defaultOpen = true, ...pr
   }, [isMobile, openMobile]);
 
   const value = useMemo<SidebarContextValue>(
-    () => ({ isMobile, open, openMobile, setOpenMobile, toggleSidebar }),
+    () => ({ open, isMobile, openMobile, setOpenMobile, toggleSidebar }),
     [isMobile, open, openMobile, toggleSidebar]
   );
 
@@ -117,7 +117,7 @@ function SidebarProvider({ style, children, className, defaultOpen = true, ...pr
 function Sidebar({ className, children, ...props }: ComponentProps<'aside'>) {
   const { isMobile, open, openMobile, setOpenMobile } = useSidebar();
 
-  if (isMobile) {
+  if (isMobile)
     return (
       <>
         <div
@@ -147,7 +147,6 @@ function Sidebar({ className, children, ...props }: ComponentProps<'aside'>) {
         </aside>
       </>
     );
-  }
 
   return (
     <aside
@@ -220,10 +219,7 @@ const SidebarMenuItem = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ class
 ));
 SidebarMenuItem.displayName = 'SidebarMenuItem';
 
-type SidebarMenuButtonProps = ComponentProps<'button'> & {
-  asChild?: boolean;
-  isActive?: boolean;
-};
+type SidebarMenuButtonProps = ComponentProps<'button'> & { asChild?: boolean; isActive?: boolean };
 
 const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
   ({ className, asChild = false, isActive = false, ...props }, ref) => {

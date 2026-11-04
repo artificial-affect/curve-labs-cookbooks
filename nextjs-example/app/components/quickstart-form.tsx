@@ -16,18 +16,12 @@ const promptPresets: PromptPreset[] = [
     label: 'Support',
     prompt: 'I rotated my API key and now every call to /api/v1/completions returns 401. What should I check first?',
   },
-  {
-    label: 'Companion',
-    prompt: "Hey, I'm feeling really drained tonight and can't stop overthinking everything.",
-  },
+  { label: 'Companion', prompt: "Hey, I'm feeling really drained tonight and can't stop overthinking everything." },
   {
     label: 'Creative',
     prompt: "I have an idea for a sci-fi story where all sound disappears overnight, but I don't know how to start.",
   },
-  {
-    label: 'Tutor',
-    prompt: "I'm a beginner in Spanish. How do I order a coffee politely?",
-  },
+  { label: 'Tutor', prompt: "I'm a beginner in Spanish. How do I order a coffee politely?" },
 ];
 
 export function QuickstartForm() {

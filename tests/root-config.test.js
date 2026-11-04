@@ -63,10 +63,7 @@ test('resolveThinkFeelSdkBaseUrl strips /api/v1 only for native SDK calls', () =
 });
 
 test('loadRuntimeConfig falls back to legacy CURVE variables', () => {
-  const config = loadRuntimeConfig({
-    CURVE_API_KEY: 'legacy-key',
-    CURVE_PERSONA_ID: 'legacy-persona',
-  });
+  const config = loadRuntimeConfig({ CURVE_API_KEY: 'legacy-key', CURVE_PERSONA_ID: 'legacy-persona' });
 
   assert.equal(config.apiKey, 'legacy-key');
   assert.equal(config.personaId, 'legacy-persona');

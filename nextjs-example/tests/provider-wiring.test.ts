@@ -24,22 +24,15 @@ describe('ThinkFeel provider wiring', () => {
           model: 'persona-123',
           object: 'text_completion',
           created: Math.floor(Date.now() / 1000),
-          choices: [{ text: 'hello from thinkfeel', index: 0, logprobs: null, finish_reason: 'stop' }],
+          choices: [{ index: 0, logprobs: null, finish_reason: 'stop', text: 'hello from thinkfeel' }],
         }),
-        {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        }
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
     });
 
     const provider = createThinkFeelProvider({
-      env: {
-        NODE_ENV: 'test',
-        THINKFEEL_API_KEY: 'test-key',
-        THINKFEEL_BASE_URL: 'https://example.thinkfeel.dev/api/v1',
-      },
       fetch: fetchMock as typeof fetch,
+      env: { NODE_ENV: 'test', THINKFEEL_API_KEY: 'test-key', THINKFEEL_BASE_URL: 'https://example.thinkfeel.dev/api/v1' },
     });
 
     const result = await generateText({ prompt: 'hi', model: provider.completion('persona-123') });

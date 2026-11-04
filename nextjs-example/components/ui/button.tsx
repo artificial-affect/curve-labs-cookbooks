@@ -6,15 +6,15 @@ import { type VariantProps, cva } from 'class-variance-authority';
 const buttonVariants = cva(
   'outline-none inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none text-sm font-medium transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-4 disabled:pointer-events-none disabled:opacity-50',
   {
+    defaultVariants: { size: 'default', variant: 'default' },
     variants: {
+      size: { sm: 'h-9 px-3', icon: 'h-10 w-10', default: 'h-10 px-4 py-2' },
       variant: {
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         default: 'border border-primary bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/95',
       },
-      size: { sm: 'h-9 px-3', icon: 'h-10 w-10', default: 'h-10 px-4 py-2' },
     },
-    defaultVariants: { size: 'default', variant: 'default' },
   }
 );
 
@@ -25,7 +25,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ size, variant, className }))}
         ref={ref}
         {...(!asChild ? { type: type ?? 'button' } : {})}
         {...props}

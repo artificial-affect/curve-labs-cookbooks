@@ -9,7 +9,7 @@ import { ApiAccessNote } from '@/app/components/api-access-note';
 import type { ApiErrorResponse, PersonifyResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
 
-type RawPreset = { label: string; raw: string };
+type RawPreset = { raw: string; label: string };
 
 const rawPresets: RawPreset[] = [
   {
