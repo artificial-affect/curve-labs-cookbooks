@@ -1,7 +1,6 @@
 # Chat SDK Adaptation for ThinkFeel (Non-Stream)
 
-ThinkFeel's OpenAI-compatible endpoint is `/api/v1/completions` and currently rejects `stream: true`.
-A default Chat SDK project uses `streamText` and streaming UI transport, so adaptation is required.
+ThinkFeel's OpenAI-compatible endpoint is `/api/v1/completions` and currently rejects `stream: true`. A default Chat SDK project uses `streamText` and streaming UI transport, so adaptation is required.
 
 ## 1) `lib/ai/providers.ts`
 
@@ -14,10 +13,7 @@ import { resolveThinkFeelConfig } from '@/src/lib/thinkfeel-provider';
 const { apiKey, baseURL } = resolveThinkFeelConfig(process.env);
 if (!apiKey) throw new Error('Missing THINKFEEL_API_KEY environment variable.');
 
-export const thinkfeel = createOpenAI({
-  apiKey,
-  baseURL,
-});
+export const thinkfeel = createOpenAI({ apiKey, baseURL });
 ```
 
 ## 2) `lib/ai/models.ts`
@@ -57,10 +53,7 @@ export async function POST(req: Request) {
   const { messages, personaId } = await req.json();
   const prompt = formatMessagesAsCompletionPrompt(messages);
 
-  const { text } = await generateText({
-    model: thinkfeel.completion(personaId),
-    prompt,
-  });
+  const { text } = await generateText({ model: thinkfeel.completion(personaId), prompt });
 
   return Response.json({ reply: text, model: personaId });
 }
@@ -84,19 +77,13 @@ Your UI should wait for one full reply payload per request. Do not assume token 
 ```ts
 const response = await fetch(`${baseURL}/personify`, {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-api-key': apiKey,
-  },
+  headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
   body: JSON.stringify({ personaId, raw }),
 });
 
 if (!response.ok) throw new Error(await response.text());
 
-const personify = (await response.json()) as {
-  chunks: string[];
-  personified: string;
-};
+const personify = (await response.json()) as { chunks: string[]; personified: string };
 ```
 
 ## Notes

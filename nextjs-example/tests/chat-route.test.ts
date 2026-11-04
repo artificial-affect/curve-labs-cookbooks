@@ -39,7 +39,7 @@ describe('POST /api/chat', () => {
           id: 'cmpl-1',
           model: 'persona-default',
           object: 'text_completion',
-          choices: [{ text: 'welcome back', index: 0, logprobs: null, finish_reason: 'stop' }],
+          choices: [{ index: 0, logprobs: null, text: 'welcome back', finish_reason: 'stop' }],
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
@@ -82,7 +82,7 @@ describe('POST /api/chat', () => {
           id: 'cmpl-1',
           object: 'text_completion',
           model: 'persona-from-request',
-          choices: [{ text: 'persona override works', index: 0, logprobs: null, finish_reason: 'stop' }],
+          choices: [{ index: 0, logprobs: null, finish_reason: 'stop', text: 'persona override works' }],
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
@@ -93,10 +93,7 @@ describe('POST /api/chat', () => {
     const request = new Request('http://localhost/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        personaId: 'persona-from-request',
-        messages: [{ role: 'user', content: 'hello' }],
-      }),
+      body: JSON.stringify({ personaId: 'persona-from-request', messages: [{ role: 'user', content: 'hello' }] }),
     });
 
     const response = await chatPost(request);

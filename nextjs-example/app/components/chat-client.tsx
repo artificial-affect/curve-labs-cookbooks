@@ -21,18 +21,12 @@ const starterMessages: PromptPreset[] = [
     label: 'Support',
     message: "I rotated my API key and now every request returns 401. Can you help me figure out what's wrong?",
   },
-  {
-    label: 'Companion',
-    message: "I've been feeling really anxious all day and can't seem to calm down.",
-  },
+  { label: 'Companion', message: "I've been feeling really anxious all day and can't seem to calm down." },
   {
     label: 'Creative',
     message: "I have a story idea about a city where all sound disappears overnight, but I'm stuck on the opening.",
   },
-  {
-    label: 'Tutor',
-    message: "I'm new to French. How would I order a coffee politely?",
-  },
+  { label: 'Tutor', message: "I'm new to French. How would I order a coffee politely?" },
 ];
 
 export function ChatClient() {

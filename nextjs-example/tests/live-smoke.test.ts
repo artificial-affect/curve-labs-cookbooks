@@ -17,9 +17,7 @@ describeLive('Live ThinkFeel smoke checks', () => {
     expect(quickstart.model).toBe(personaId);
     expect(quickstart.text.trim().length).toBeGreaterThan(0);
 
-    const chat = await runChat({
-      messages: [{ role: 'user', content: 'Give me a 5-word greeting.' }],
-    });
+    const chat = await runChat({ messages: [{ role: 'user', content: 'Give me a 5-word greeting.' }] });
 
     expect(chat.model).toBe(personaId);
     expect(chat.reply.trim().length).toBeGreaterThan(0);

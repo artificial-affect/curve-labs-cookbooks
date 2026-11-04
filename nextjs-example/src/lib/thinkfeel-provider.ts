@@ -20,7 +20,7 @@ export function resolveThinkFeelConfig(env?: NodeJS.ProcessEnv) {
   const defaultPersonaId = readEnvVarWithFallback(runtimeEnv, 'THINKFEEL_PERSONA_ID', 'CURVE_PERSONA_ID');
   const baseURL = (readEnvVar(runtimeEnv, 'THINKFEEL_BASE_URL') ?? DEFAULT_THINKFEEL_BASE_URL).replace(/\/+$/, '');
 
-  return { apiKey, defaultPersonaId, baseURL };
+  return { apiKey, baseURL, defaultPersonaId };
 }
 
 export function resolvePersonaId(personaId: string | undefined, env?: NodeJS.ProcessEnv) {

@@ -24,11 +24,6 @@ export const chatRequestSchema = z
   })
   .superRefine((value, ctx) => {
     const last = value.messages[value.messages.length - 1];
-    if (last?.role !== 'user') {
-      ctx.addIssue({
-        path: ['messages'],
-        code: z.ZodIssueCode.custom,
-        message: 'The last message role must be user.',
-      });
-    }
+    if (last?.role !== 'user')
+      ctx.addIssue({ path: ['messages'], code: z.ZodIssueCode.custom, message: 'The last message role must be user.' });
   });

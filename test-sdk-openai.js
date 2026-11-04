@@ -23,8 +23,5 @@ export async function testAISDK(config, options = {}) {
     'Reply Choices': openaiResponse.response.body?.choices,
   });
 
-  return {
-    finalReply,
-    response: openaiResponse,
-  };
+  return { finalReply, response: openaiResponse };
 }

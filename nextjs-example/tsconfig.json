@@ -1,4 +1,6 @@
 {
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
   "compilerOptions": {
     "noEmit": true,
     "strict": true,
@@ -15,7 +17,5 @@
     "moduleResolution": "bundler",
     "plugins": [{ "name": "next" }],
     "lib": ["dom", "dom.iterable", "esnext"]
-  },
-  "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"]
+  }
 }

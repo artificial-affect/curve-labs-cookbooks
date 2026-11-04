@@ -40,7 +40,7 @@ describe('POST /api/personify', () => {
       expect(body.raw).toBe('base response');
       expect(body.personaId).toBe('persona-default');
 
-      return new Response(JSON.stringify({ personified: 'persona response', chunks: ['persona response'] }), {
+      return new Response(JSON.stringify({ chunks: ['persona response'], personified: 'persona response' }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -55,7 +55,7 @@ describe('POST /api/personify', () => {
     });
 
     const response = await personifyPost(request);
-    const body = (await response.json()) as { personified: string; chunks: string[]; model: string };
+    const body = (await response.json()) as { model: string; chunks: string[]; personified: string };
 
     expect(response.status).toBe(200);
     expect(body.personified).toBe('persona response');
@@ -72,7 +72,7 @@ describe('POST /api/personify', () => {
       const body = JSON.parse(String(init?.body ?? '{}')) as { personaId?: string };
       expect(body.personaId).toBe('persona-from-request');
 
-      return new Response(JSON.stringify({ personified: 'override response', chunks: [] }), {
+      return new Response(JSON.stringify({ chunks: [], personified: 'override response' }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });

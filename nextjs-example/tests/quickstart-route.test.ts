@@ -37,7 +37,7 @@ describe('POST /api/quickstart', () => {
             id: 'cmpl-1',
             model: 'persona-default',
             object: 'text_completion',
-            choices: [{ text: 'generated output', index: 0, logprobs: null, finish_reason: 'stop' }],
+            choices: [{ index: 0, logprobs: null, finish_reason: 'stop', text: 'generated output' }],
           }),
           { status: 200, headers: { 'Content-Type': 'application/json' } }
         )
@@ -76,7 +76,7 @@ describe('POST /api/quickstart', () => {
           id: 'cmpl-1',
           object: 'text_completion',
           model: 'persona-from-request',
-          choices: [{ text: 'generated output', index: 0, logprobs: null, finish_reason: 'stop' }],
+          choices: [{ index: 0, logprobs: null, finish_reason: 'stop', text: 'generated output' }],
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );

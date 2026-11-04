@@ -10,20 +10,13 @@ Current API routes (`/api/chat`, `/api/quickstart`, `/api/personify`) validate p
 
 Before production use, implement and verify:
 
-1. Route protection:
-   Auth on all API routes (session/JWT/service auth) and tenant/user-level authorization.
-2. Abuse protection:
-   Rate limiting, request throttling, and bot/abuse controls at edge and app layers.
-3. Security controls:
-   CSRF/CORS policy review (where applicable), stricter request size limits, and defensive headers via your hosting stack.
-4. Observability:
-   Structured logs, request IDs, error reporting, and alerting around provider/API failures.
-5. Secret and environment hygiene:
-   `THINKFEEL_API_KEY` in a managed secret store, key rotation, and environment-scoped credentials.
-6. Privacy and compliance:
-   Retention/deletion policy for prompts/replies and sensitive-content sanitization before persistence/analytics.
-7. Cost and reliability safeguards:
-   Token/request budgets, timeouts/retries/circuit breaking, and fallback behavior for provider outages.
+1. Route protection: Auth on all API routes (session/JWT/service auth) and tenant/user-level authorization.
+2. Abuse protection: Rate limiting, request throttling, and bot/abuse controls at edge and app layers.
+3. Security controls: CSRF/CORS policy review (where applicable), stricter request size limits, and defensive headers via your hosting stack.
+4. Observability: Structured logs, request IDs, error reporting, and alerting around provider/API failures.
+5. Secret and environment hygiene: `THINKFEEL_API_KEY` in a managed secret store, key rotation, and environment-scoped credentials.
+6. Privacy and compliance: Retention/deletion policy for prompts/replies and sensitive-content sanitization before persistence/analytics.
+7. Cost and reliability safeguards: Token/request budgets, timeouts/retries/circuit breaking, and fallback behavior for provider outages.
 
 ## One-Click Deploy (Vercel)
 
@@ -105,10 +98,7 @@ Response:
 Request:
 
 ```json
-{
-  "messages": [{ "role": "user", "content": "hello" }],
-  "personaId": "optional-uuid"
-}
+{ "messages": [{ "role": "user", "content": "hello" }], "personaId": "optional-uuid" }
 ```
 
 Response:

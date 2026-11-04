@@ -9,7 +9,7 @@ export async function testThinkFeel(config, options = {}) {
 
   log('Testing ThinkFeel SDK...\n');
 
-  const response = await thinkFeel.generate({ messages: [{ role: 'user', content }], includeVariations: true });
+  const response = await thinkFeel.generate({ includeVariations: true, messages: [{ content, role: 'user' }] });
   const replyChoices = Array.isArray(response.replyChoices) ? response.replyChoices : [];
   const rateLimits = Array.isArray(response.rateLimits) ? response.rateLimits : [];
 
@@ -22,9 +22,8 @@ export async function testThinkFeel(config, options = {}) {
 
   let personifyResponse = null;
   if (personifyRaw) {
-    if (typeof thinkFeel.personify !== 'function') {
+    if (typeof thinkFeel.personify !== 'function')
       throw new Error('Installed @curvelabs.org/thinkfeel does not support personify. Update to 0.1.6 or newer.');
-    }
 
     personifyResponse = await thinkFeel.personify({ raw: personifyRaw });
     log('> ThinkFeel SDK Personify Response:', {
@@ -33,11 +32,5 @@ export async function testThinkFeel(config, options = {}) {
     });
   }
 
-  return {
-    response,
-    rateLimits,
-    replyChoices,
-    personifyResponse,
-    finalReply: response.finalReply,
-  };
+  return { response, rateLimits, replyChoices, personifyResponse, finalReply: response.finalReply };
 }

@@ -49,8 +49,7 @@ npm install
 npm start
 ```
 
-The root runner uses `THINKFEEL_BASE_URL` for OpenAI-compatible `/completions` calls. For the native SDK, it strips `/api/v1` and calls `/api/v1/generate` and `/api/v1/personify` through the SDK client.
-The native `personify` check only succeeds for persona IDs currently enabled for Playground `/api/v1/personify`.
+The root runner uses `THINKFEEL_BASE_URL` for OpenAI-compatible `/completions` calls. For the native SDK, it strips `/api/v1` and calls `/api/v1/generate` and `/api/v1/personify` through the SDK client. The native `personify` check only succeeds for persona IDs currently enabled for Playground `/api/v1/personify`.
 
 3. Run offline tests:
 

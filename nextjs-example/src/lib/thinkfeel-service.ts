@@ -12,9 +12,8 @@ import {
 type ServiceOptions = { fetch?: typeof fetch; env?: NodeJS.ProcessEnv };
 
 function requirePersonaId(personaId: string | undefined) {
-  if (!personaId) {
+  if (!personaId)
     throw new AppError('config', 'Missing personaId. Provide personaId in the request or set THINKFEEL_PERSONA_ID.', 500);
-  }
 
   return personaId;
 }
@@ -57,7 +56,7 @@ export async function runPersonify(request: PersonifyRequest, options: ServiceOp
     const response = await (options.fetch ?? fetch)(getThinkFeelApiUrl('/personify', options.env), {
       method: 'POST',
       body: JSON.stringify({ raw: request.raw, personaId }),
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
+      headers: { 'x-api-key': apiKey, 'Content-Type': 'application/json' },
     });
 
     if (!response.ok) throw new AppError('provider', await readProviderError(response), 502);

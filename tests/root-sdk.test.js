@@ -12,12 +12,12 @@ test('testThinkFeel passes native SDK origin and optional personify input', asyn
 
     async generate(options) {
       calls.generate = options;
-      return { finalReply: 'generated', replyChoices: ['variation'], rateLimits: [], chunks: ['generated'] };
+      return { rateLimits: [], chunks: ['generated'], finalReply: 'generated', replyChoices: ['variation'] };
     }
 
     async personify(options) {
       calls.personify = options;
-      return { personified: 'personified', chunks: ['personified'] };
+      return { chunks: ['personified'], personified: 'personified' };
     }
   }
 
@@ -29,18 +29,11 @@ test('testThinkFeel passes native SDK origin and optional personify input', asyn
       personifyRaw: 'neutral base response',
       sdkBaseUrl: 'https://example.thinkfeel.dev',
     },
-    { ThinkFeel: FakeThinkFeel, log: () => {} }
+    { log: () => {}, ThinkFeel: FakeThinkFeel }
   );
 
-  assert.deepEqual(calls.config, {
-    apiKey: 'test-key',
-    personaId: 'persona-123',
-    baseUrl: 'https://example.thinkfeel.dev',
-  });
-  assert.deepEqual(calls.generate, {
-    includeVariations: true,
-    messages: [{ role: 'user', content: 'hello' }],
-  });
+  assert.deepEqual(calls.config, { apiKey: 'test-key', personaId: 'persona-123', baseUrl: 'https://example.thinkfeel.dev' });
+  assert.deepEqual(calls.generate, { includeVariations: true, messages: [{ role: 'user', content: 'hello' }] });
   assert.deepEqual(calls.personify, { raw: 'neutral base response' });
   assert.equal(result.personifyResponse.personified, 'personified');
 });
