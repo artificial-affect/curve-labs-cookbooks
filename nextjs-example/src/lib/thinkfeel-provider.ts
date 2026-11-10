@@ -2,13 +2,9 @@ import { createOpenAI } from '@ai-sdk/openai';
 type ProviderOptions = { fetch?: typeof fetch; env?: NodeJS.ProcessEnv };
 export const DEFAULT_THINKFEEL_BASE_URL = 'https://playground.curvelabs.org/api/v1';
 
-export function resolveServerEnv(env?: NodeJS.ProcessEnv) {
-  return env ?? process.env;
-}
+export const resolveServerEnv = (env?: NodeJS.ProcessEnv) => env ?? process.env;
 
-function readEnvVar(env: NodeJS.ProcessEnv, key: string) {
-  return env[key]?.trim() || undefined;
-}
+const readEnvVar = (env: NodeJS.ProcessEnv, key: string) => env[key]?.trim() || undefined;
 
 function readEnvVarWithFallback(env: NodeJS.ProcessEnv, key: string, legacyKey: string) {
   return readEnvVar(env, key) ?? readEnvVar(env, legacyKey);

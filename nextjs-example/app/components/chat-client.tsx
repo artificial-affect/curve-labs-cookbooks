@@ -1,14 +1,14 @@
 'use client';
 import { cn } from '@/src/lib/utils';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ApiAccessNote } from '@/app/components/api-access-note';
 import { Send, RotateCcw, Loader2Icon, MessageCircleMore } from 'lucide-react';
 import type { ChatMessage, ChatResponse, ApiErrorResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
-import { type SubmitEvent, type KeyboardEvent, useRef, Fragment, useState, useEffect } from 'react';
+import { useRef, Fragment, useState, useEffect, type SubmitEvent, type KeyboardEvent } from 'react';
 
 type Turn = ChatMessage & { id: string };
 type PromptPreset = { label: string; message: string };
@@ -50,7 +50,7 @@ export function ChatClient() {
   async function sendMessage(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!input.trim() || isLoading) return;
-    const outgoingTurn: Turn = { id: createTurnId(), role: 'user', content: input.trim() };
+    const outgoingTurn: Turn = { role: 'user', id: createTurnId(), content: input.trim() };
 
     const history = [...messages, outgoingTurn];
     setMessages(history);
@@ -72,7 +72,7 @@ export function ChatClient() {
       }
 
       const body = (await response.json()) as ChatResponse;
-      setMessages(previous => [...previous, { id: createTurnId(), role: 'assistant', content: body.reply }]);
+      setMessages(previous => [...previous, { role: 'assistant', id: createTurnId(), content: body.reply }]);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Request failed.');
     } finally {

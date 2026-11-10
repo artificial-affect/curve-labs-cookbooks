@@ -4,10 +4,6 @@ import { Slot } from '@radix-ui/react-slot';
 import { Button } from '@/components/ui/button';
 import { XIcon, PanelLeftIcon } from 'lucide-react';
 import {
-  type Dispatch,
-  type CSSProperties,
-  type ComponentProps,
-  type SetStateAction,
   useMemo,
   useState,
   useEffect,
@@ -15,6 +11,10 @@ import {
   useContext,
   useCallback,
   createContext,
+  type Dispatch,
+  type CSSProperties,
+  type ComponentProps,
+  type SetStateAction,
 } from 'react';
 
 const SIDEBAR_WIDTH = '16rem';
@@ -57,8 +57,8 @@ type SidebarProviderProps = ComponentProps<'div'> & { defaultOpen?: boolean };
 
 function SidebarProvider({ style, children, className, defaultOpen = true, ...props }: SidebarProviderProps) {
   const isMobile = useMobileQuery();
-  const [openMobile, setOpenMobile] = useState(false);
   const [open, setOpen] = useState(defaultOpen);
+  const [openMobile, setOpenMobile] = useState(false);
 
   const toggleSidebar = useCallback(() => {
     if (isMobile) return setOpenMobile(previous => !previous);

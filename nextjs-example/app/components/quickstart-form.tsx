@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
-import { type SubmitEvent, Fragment, useState } from 'react';
+import { Fragment, useState, type SubmitEvent } from 'react';
 import { ApiAccessNote } from '@/app/components/api-access-note';
 import type { ApiErrorResponse, QuickstartResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';

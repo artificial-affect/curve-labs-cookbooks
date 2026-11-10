@@ -3,9 +3,7 @@ export const DEFAULT_THINKFEEL_BASE_URL = 'https://playground.curvelabs.org/api/
 
 const THINKFEEL_API_V1_SUFFIX = '/api/v1';
 
-function readOptionalEnvVar(env, key) {
-  return env[key]?.trim() || undefined;
-}
+const readOptionalEnvVar = (env, key) => env[key]?.trim() || undefined;
 
 function readRequiredEnvVar(env, key, legacyKey) {
   const value = readOptionalEnvVar(env, key) ?? readOptionalEnvVar(env, legacyKey);

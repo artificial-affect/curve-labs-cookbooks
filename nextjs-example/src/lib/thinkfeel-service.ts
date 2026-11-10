@@ -55,7 +55,7 @@ export async function runPersonify(request: PersonifyRequest, options: ServiceOp
     if (!apiKey) throw new AppError('config', 'Missing THINKFEEL_API_KEY environment variable.', 500);
     const response = await (options.fetch ?? fetch)(getThinkFeelApiUrl('/personify', options.env), {
       method: 'POST',
-      body: JSON.stringify({ raw: request.raw, personaId }),
+      body: JSON.stringify({ personaId, raw: request.raw }),
       headers: { 'x-api-key': apiKey, 'Content-Type': 'application/json' },
     });
 
@@ -65,7 +65,7 @@ export async function runPersonify(request: PersonifyRequest, options: ServiceOp
     if (typeof body.personified !== 'string') throw new AppError('provider', 'Personify response was missing text.', 502);
 
     const chunks = Array.isArray(body.chunks) ? body.chunks.filter(chunk => typeof chunk === 'string') : [];
-    return { personified: body.personified, chunks, model: personaId };
+    return { chunks, model: personaId, personified: body.personified };
   } catch (error) {
     if (error instanceof AppError) throw error;
     throw new AppError('provider', error instanceof Error ? error.message : 'Provider call failed.', 502);
