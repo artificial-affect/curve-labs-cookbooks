@@ -1,15 +1,17 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import {
+  type LucideIcon,
   GithubIcon,
   SparklesIcon,
-  type LucideIcon,
   BookOpenTextIcon,
   ExternalLinkIcon,
   WandSparklesIcon,
   MessageSquareTextIcon,
 } from 'lucide-react';
+
 import {
   Sidebar,
   useSidebar,
@@ -24,23 +26,23 @@ import {
   SidebarGroupContent,
 } from '@/components/ui/sidebar';
 
-type NavItem = { href: string; label: string; icon: LucideIcon };
+type NavItem = { href: string; icon: LucideIcon; label: string };
 
 const sdkItems: NavItem[] = [
   { href: '/', icon: SparklesIcon, label: 'Quickstart' },
-  { href: '/chat', label: 'Chat', icon: MessageSquareTextIcon },
-  { href: '/personify', label: 'Personify', icon: WandSparklesIcon },
+  { href: '/chat', icon: MessageSquareTextIcon, label: 'Chat' },
+  { href: '/personify', icon: WandSparklesIcon, label: 'Personify' },
 ];
 
 const resourceItems: NavItem[] = [
-  { label: 'Docs', icon: BookOpenTextIcon, href: 'https://docs.curvelabs.org' },
-  { label: 'Playground', icon: ExternalLinkIcon, href: 'https://playground.curvelabs.org' },
-  { label: 'GitHub', icon: GithubIcon, href: 'https://github.com/artificial-affect' },
+  { href: 'https://docs.curvelabs.org', icon: BookOpenTextIcon, label: 'Docs' },
+  { href: 'https://playground.curvelabs.org', icon: ExternalLinkIcon, label: 'Playground' },
+  { href: 'https://github.com/artificial-affect', icon: GithubIcon, label: 'GitHub' },
 ];
 
 const legalItems: Pick<NavItem, 'href' | 'label'>[] = [
-  { label: 'Terms', href: 'https://www.curvelabs.org/terms' },
-  { label: 'Privacy', href: 'https://www.curvelabs.org/privacy' },
+  { href: 'https://www.curvelabs.org/terms', label: 'Terms' },
+  { href: 'https://www.curvelabs.org/privacy', label: 'Privacy' },
 ];
 
 export function AppSidebar() {
@@ -55,7 +57,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b border-foreground/15 p-4">
         <Link href="/" className="h-9 space-y-1 outline-none focus-visible:underline" onClick={closeMobile}>
-          <p className="mono-meta leading-none text-[10px]">Curve Labs</p>
+          <p className="mono-meta text-[10px] leading-none">Curve Labs</p>
           <p className="font-serif text-lg leading-tight tracking-tight">ThinkFeel SDK Cookbook</p>
         </Link>
       </SidebarHeader>
@@ -103,6 +105,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {resourceItems.map(item => {
                 const Icon = item.icon;
+
                 return (
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton asChild>

@@ -1,8 +1,6 @@
 export const DEFAULT_CONTENT = "hey what's up?";
 export const DEFAULT_THINKFEEL_BASE_URL = 'https://playground.curvelabs.org/api/v1';
-
 const THINKFEEL_API_V1_SUFFIX = '/api/v1';
-
 const readOptionalEnvVar = (env, key) => env[key]?.trim() || undefined;
 
 function readRequiredEnvVar(env, key, legacyKey) {
@@ -14,7 +12,6 @@ function readRequiredEnvVar(env, key, legacyKey) {
 export function resolveThinkFeelSdkBaseUrl(baseURL) {
   const normalizedBaseURL = baseURL.replace(/\/+$/, '');
   if (normalizedBaseURL.endsWith(THINKFEEL_API_V1_SUFFIX)) return normalizedBaseURL.slice(0, -THINKFEEL_API_V1_SUFFIX.length);
-
   return normalizedBaseURL;
 }
 

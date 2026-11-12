@@ -4,11 +4,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
-import { Fragment, useState, type SubmitEvent } from 'react';
+import { type SubmitEvent, Fragment, useState } from 'react';
 import { ApiAccessNote } from '@/app/components/api-access-note';
 import type { ApiErrorResponse, QuickstartResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
-
 type PromptPreset = { label: string; prompt: string };
 
 const promptPresets: PromptPreset[] = [
@@ -34,7 +33,6 @@ export function QuickstartForm() {
   async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!prompt.trim()) return;
-
     setIsLoading(true);
     setError('');
 
@@ -162,7 +160,7 @@ export function QuickstartForm() {
               </p>
             ) : null}
             {result ? (
-              <div className="border border-foreground/15 bg-secondary/20 p-4 animate-fade-in">
+              <div className="animate-fade-in border border-foreground/15 bg-secondary/20 p-4">
                 <p className="mono-meta mb-2 text-[11px] text-foreground">Result</p>
                 <p className="mb-2 text-sm">
                   <span className="font-semibold">Persona ID:</span> <code className="font-mono text-xs">{result.model}</code>

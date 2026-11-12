@@ -8,7 +8,7 @@ export default function PersonifyPage() {
       <header className="space-y-4 border-b border-foreground/15 pb-6">
         <p className="mono-meta">ThinkFeel Personify API</p>
         <h1 className="text-balance font-serif text-3xl tracking-tighter sm:text-4xl">Personify Raw Replies</h1>
-        <p className="max-w-3xl text-sm text-muted-foreground sm:text-base font-[family-name:var(--font-geist-mono)]">
+        <p className="max-w-3xl font-[family-name:var(--font-geist-mono)] text-sm text-muted-foreground sm:text-base">
           Rewrite base responses through the native ThinkFeel endpoint.
         </p>
         <div className="flex flex-wrap items-center gap-2">

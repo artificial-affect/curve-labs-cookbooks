@@ -1,8 +1,6 @@
 import { POST as chatPost } from '@/app/api/chat/route';
 import { it, vi, expect, describe, afterEach } from 'vitest';
-
 const ORIGINAL_ENV = process.env;
-
 afterEach(() => {
   process.env = { ...ORIGINAL_ENV };
   vi.unstubAllGlobals();
@@ -11,14 +9,13 @@ afterEach(() => {
 describe('POST /api/chat', () => {
   it('returns 400 validation error when body is invalid JSON', async () => {
     const request = new Request('http://localhost/api/chat', {
-      method: 'POST',
       body: '{"messages":',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await chatPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(400);
     expect(body.error.type).toBe('validation');
     expect(body.error.message).toContain('valid JSON');
@@ -35,11 +32,11 @@ describe('POST /api/chat', () => {
 
       return new Response(
         JSON.stringify({
-          created: 1,
           id: 'cmpl-1',
           model: 'persona-default',
           object: 'text_completion',
-          choices: [{ index: 0, logprobs: null, text: 'welcome back', finish_reason: 'stop' }],
+          choices: [{ text: 'welcome back', index: 0, logprobs: null, finish_reason: 'stop' }],
+          created: 1,
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
@@ -48,8 +45,6 @@ describe('POST /api/chat', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const request = new Request('http://localhost/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: [
           { role: 'user', content: 'hello' },
@@ -57,11 +52,12 @@ describe('POST /api/chat', () => {
           { role: 'user', content: "hello it's me again" },
         ],
       }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await chatPost(request);
-    const body = (await response.json()) as { reply: string; model: string };
-
+    const body = (await response.json()) as { model: string; reply: string };
     expect(response.status).toBe(200);
     expect(body.reply).toBe('welcome back');
     expect(body.model).toBe('persona-default');
@@ -78,11 +74,11 @@ describe('POST /api/chat', () => {
 
       return new Response(
         JSON.stringify({
-          created: 1,
           id: 'cmpl-1',
-          object: 'text_completion',
           model: 'persona-from-request',
-          choices: [{ index: 0, logprobs: null, finish_reason: 'stop', text: 'persona override works' }],
+          object: 'text_completion',
+          choices: [{ text: 'persona override works', index: 0, logprobs: null, finish_reason: 'stop' }],
+          created: 1,
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
@@ -91,14 +87,13 @@ describe('POST /api/chat', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const request = new Request('http://localhost/api/chat', {
+      body: JSON.stringify({ personaId: 'persona-from-request', messages: [{ role: 'user', content: 'hello' }] }),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ personaId: 'persona-from-request', messages: [{ role: 'user', content: 'hello' }] }),
     });
 
     const response = await chatPost(request);
-    const body = (await response.json()) as { reply: string; model: string };
-
+    const body = (await response.json()) as { model: string; reply: string };
     expect(response.status).toBe(200);
     expect(body.model).toBe('persona-from-request');
     expect(body.reply).toBe('persona override works');
@@ -106,14 +101,13 @@ describe('POST /api/chat', () => {
 
   it('returns 400 validation error for invalid message role', async () => {
     const request = new Request('http://localhost/api/chat', {
+      body: JSON.stringify({ messages: [{ role: 'bot', content: 'not allowed' }] }),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [{ role: 'bot', content: 'not allowed' }] }),
     });
 
     const response = await chatPost(request);
     const body = (await response.json()) as { error: { type: string } };
-
     expect(response.status).toBe(400);
     expect(body.error.type).toBe('validation');
   });
@@ -129,14 +123,13 @@ describe('POST /api/chat', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const request = new Request('http://localhost/api/chat', {
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'hello' }] }),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [{ role: 'user', content: 'hello' }] }),
     });
 
     const response = await chatPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(502);
     expect(body.error.type).toBe('provider');
     expect(body.error.message.length).toBeGreaterThan(0);
@@ -148,14 +141,13 @@ describe('POST /api/chat', () => {
     delete process.env.CURVE_PERSONA_ID;
 
     const request = new Request('http://localhost/api/chat', {
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'hello' }] }),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [{ role: 'user', content: 'hello' }] }),
     });
 
     const response = await chatPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(500);
     expect(body.error.type).toBe('config');
     expect(body.error.message).toContain('THINKFEEL_PERSONA_ID');

@@ -26,8 +26,8 @@ test('loadRuntimeConfig treats blank required variables as missing', () => {
 test('loadRuntimeConfig trims values and applies defaults for blank optional variables', () => {
   const config = loadRuntimeConfig({
     CURVE_PROMPT: '   ',
-    THINKFEEL_BASE_URL: '   ',
     THINKFEEL_API_KEY: '  test-key  ',
+    THINKFEEL_BASE_URL: '   ',
     THINKFEEL_PERSONA_ID: '  persona-123  ',
   });
 
@@ -40,10 +40,10 @@ test('loadRuntimeConfig trims values and applies defaults for blank optional var
 
 test('loadRuntimeConfig returns explicit optional values when provided', () => {
   const config = loadRuntimeConfig({
-    THINKFEEL_API_KEY: 'test-key',
     CURVE_PROMPT: 'custom prompt',
-    THINKFEEL_PERSONA_ID: 'persona-123',
+    THINKFEEL_API_KEY: 'test-key',
     THINKFEEL_BASE_URL: 'https://example.thinkfeel.dev/api/v1',
+    THINKFEEL_PERSONA_ID: 'persona-123',
   });
 
   assert.deepEqual(config, {
@@ -64,17 +64,16 @@ test('resolveThinkFeelSdkBaseUrl strips /api/v1 only for native SDK calls', () =
 
 test('loadRuntimeConfig falls back to legacy CURVE variables', () => {
   const config = loadRuntimeConfig({ CURVE_API_KEY: 'legacy-key', CURVE_PERSONA_ID: 'legacy-persona' });
-
   assert.equal(config.apiKey, 'legacy-key');
   assert.equal(config.personaId, 'legacy-persona');
 });
 
 test('loadRuntimeConfig treats blank THINKFEEL variables as missing before legacy fallback', () => {
   const config = loadRuntimeConfig({
-    THINKFEEL_API_KEY: '   ',
-    THINKFEEL_PERSONA_ID: '   ',
     CURVE_API_KEY: 'legacy-key',
     CURVE_PERSONA_ID: 'legacy-persona',
+    THINKFEEL_API_KEY: '   ',
+    THINKFEEL_PERSONA_ID: '   ',
   });
 
   assert.equal(config.apiKey, 'legacy-key');
@@ -84,8 +83,8 @@ test('loadRuntimeConfig treats blank THINKFEEL variables as missing before legac
 test('loadRuntimeConfig prefers THINKFEEL variables over legacy CURVE variables', () => {
   const config = loadRuntimeConfig({
     CURVE_API_KEY: 'legacy-key',
-    THINKFEEL_API_KEY: 'new-key',
     CURVE_PERSONA_ID: 'legacy-persona',
+    THINKFEEL_API_KEY: 'new-key',
     THINKFEEL_PERSONA_ID: 'new-persona',
   });
 

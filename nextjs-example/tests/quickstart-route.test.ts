@@ -1,8 +1,6 @@
 import { it, vi, expect, describe, afterEach } from 'vitest';
 import { POST as quickstartPost } from '@/app/api/quickstart/route';
-
 const ORIGINAL_ENV = process.env;
-
 afterEach(() => {
   process.env = { ...ORIGINAL_ENV };
   vi.unstubAllGlobals();
@@ -11,14 +9,13 @@ afterEach(() => {
 describe('POST /api/quickstart', () => {
   it('returns 400 validation error when body is invalid JSON', async () => {
     const request = new Request('http://localhost/api/quickstart', {
-      method: 'POST',
       body: '{"prompt":',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(400);
     expect(body.error.type).toBe('validation');
     expect(body.error.message).toContain('valid JSON');
@@ -33,11 +30,11 @@ describe('POST /api/quickstart', () => {
       async () =>
         new Response(
           JSON.stringify({
-            created: 1,
             id: 'cmpl-1',
             model: 'persona-default',
             object: 'text_completion',
-            choices: [{ index: 0, logprobs: null, finish_reason: 'stop', text: 'generated output' }],
+            choices: [{ text: 'generated output', index: 0, logprobs: null, finish_reason: 'stop' }],
+            created: 1,
           }),
           { status: 200, headers: { 'Content-Type': 'application/json' } }
         )
@@ -46,14 +43,13 @@ describe('POST /api/quickstart', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const request = new Request('http://localhost/api/quickstart', {
-      method: 'POST',
       body: JSON.stringify({ prompt: 'hello' }),
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
     const body = (await response.json()) as { text: string; model: string };
-
     expect(response.status).toBe(200);
     expect(body.text).toBe('generated output');
     expect(body.model).toBe('persona-default');
@@ -67,16 +63,15 @@ describe('POST /api/quickstart', () => {
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
       const bodyRaw = String(init?.body ?? '');
       const body = JSON.parse(bodyRaw) as { model: string };
-
       expect(body.model).toBe('persona-from-request');
 
       return new Response(
         JSON.stringify({
-          created: 1,
           id: 'cmpl-1',
-          object: 'text_completion',
           model: 'persona-from-request',
-          choices: [{ index: 0, logprobs: null, finish_reason: 'stop', text: 'generated output' }],
+          object: 'text_completion',
+          choices: [{ text: 'generated output', index: 0, logprobs: null, finish_reason: 'stop' }],
+          created: 1,
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
@@ -85,28 +80,26 @@ describe('POST /api/quickstart', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const request = new Request('http://localhost/api/quickstart', {
+      body: JSON.stringify({ prompt: 'hello', personaId: 'persona-from-request' }),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: 'hello', personaId: 'persona-from-request' }),
     });
 
     const response = await quickstartPost(request);
     const body = (await response.json()) as { text: string; model: string };
-
     expect(response.status).toBe(200);
     expect(body.model).toBe('persona-from-request');
   });
 
   it('returns 400 validation error for an empty prompt', async () => {
     const request = new Request('http://localhost/api/quickstart', {
-      method: 'POST',
       body: JSON.stringify({ prompt: '' }),
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(400);
     expect(body.error.type).toBe('validation');
   });
@@ -114,19 +107,17 @@ describe('POST /api/quickstart', () => {
   it('returns 500 config error when THINKFEEL_API_KEY and THINKFEEL_PERSONA_ID are both missing', async () => {
     delete process.env.THINKFEEL_API_KEY;
     delete process.env.THINKFEEL_PERSONA_ID;
-
     delete process.env.CURVE_API_KEY;
     delete process.env.CURVE_PERSONA_ID;
 
     const request = new Request('http://localhost/api/quickstart', {
-      method: 'POST',
       body: JSON.stringify({ prompt: 'hello' }),
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(500);
     expect(body.error.type).toBe('config');
   });
@@ -137,14 +128,13 @@ describe('POST /api/quickstart', () => {
     delete process.env.CURVE_PERSONA_ID;
 
     const request = new Request('http://localhost/api/quickstart', {
-      method: 'POST',
       body: JSON.stringify({ prompt: 'hello' }),
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await quickstartPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(500);
     expect(body.error.type).toBe('config');
     expect(body.error.message).toContain('THINKFEEL_PERSONA_ID');

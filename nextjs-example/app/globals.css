@@ -53,7 +53,7 @@
 
 @layer components {
   .text-link {
-    @apply outline-none transition-colors hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:font-semibold active:underline active:underline-offset-4 active:text-[#0097b2];
+    @apply outline-none transition-colors hover:underline hover:underline-offset-4 focus:font-semibold focus:underline focus:underline-offset-4 active:text-[#0097b2] active:underline active:underline-offset-4;
   }
 
   .surface {

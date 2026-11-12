@@ -8,7 +8,7 @@ export default function ChatPage() {
       <header className="space-y-4 border-b border-foreground/15 pb-6">
         <p className="mono-meta">ThinkFeel Chat SDK Adaptation</p>
         <h1 className="text-balance font-serif text-3xl tracking-tighter sm:text-4xl">Multi-Turn Chat UI</h1>
-        <p className="max-w-3xl text-sm text-muted-foreground sm:text-base font-[family-name:var(--font-geist-mono)]">
+        <p className="max-w-3xl font-[family-name:var(--font-geist-mono)] text-sm text-muted-foreground sm:text-base">
           Client state keeps every turn. Full history sent each request.
         </p>
         <div className="flex flex-wrap items-center gap-2">

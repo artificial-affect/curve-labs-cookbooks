@@ -10,7 +10,7 @@ export default function HomePage() {
         <h1 className="text-balance font-serif text-3xl tracking-tighter sm:text-4xl">
           Quickstart + Chat + Personify for ThinkFeel
         </h1>
-        <p className="max-w-3xl text-sm text-muted-foreground sm:text-base font-[family-name:var(--font-geist-mono)]">
+        <p className="max-w-3xl font-[family-name:var(--font-geist-mono)] text-sm text-muted-foreground sm:text-base">
           Minimal UI. Strong focus states. ThinkFeel-first prompts.
         </p>
         <div className="flex flex-wrap items-center gap-2">

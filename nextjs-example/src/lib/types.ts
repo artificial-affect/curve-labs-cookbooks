@@ -1,14 +1,10 @@
 export type ChatMessageRole = 'user' | 'assistant' | 'system' | 'developer';
 export type ChatMessage = { content: string; role: ChatMessageRole };
-
 export type QuickstartRequest = { prompt: string; personaId?: string };
 export type QuickstartResponse = { text: string; model: string };
-
 export type ChatRequest = { personaId?: string; messages: ChatMessage[] };
 export type ChatResponse = { reply: string; model: string };
-
 export type PersonifyRequest = { raw: string; personaId?: string };
 export type PersonifyResponse = { model: string; chunks: string[]; personified: string };
-
 export type ApiErrorType = 'validation' | 'config' | 'provider';
 export type ApiErrorResponse = { error: { message: string; type: ApiErrorType } };

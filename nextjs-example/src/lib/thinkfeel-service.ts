@@ -2,6 +2,7 @@ import { generateText } from 'ai';
 import { AppError } from '@/src/lib/errors';
 import { formatMessagesAsCompletionPrompt } from '@/src/lib/chat-prompt';
 import type { ChatRequest, ChatResponse, PersonifyRequest, QuickstartRequest, QuickstartResponse } from '@/src/lib/types';
+
 import {
   resolvePersonaId,
   getThinkFeelApiUrl,
@@ -36,11 +37,11 @@ export async function runQuickstart(request: QuickstartRequest, options: Service
   try {
     const personaId = requirePersonaId(resolvePersonaId(request.personaId, options.env));
     const model = getThinkFeelCompletionModel(personaId, options);
-
     const { text } = await generateText({ model, prompt: request.prompt });
     return { text, model: personaId };
   } catch (error) {
     if (error instanceof AppError) throw error;
+
     if (error instanceof Error && error.message.includes('THINKFEEL_API_KEY'))
       throw new AppError('config', error.message, 500);
 
@@ -53,6 +54,7 @@ export async function runPersonify(request: PersonifyRequest, options: ServiceOp
     const personaId = requirePersonaId(resolvePersonaId(request.personaId, options.env));
     const { apiKey } = resolveThinkFeelConfig(options.env);
     if (!apiKey) throw new AppError('config', 'Missing THINKFEEL_API_KEY environment variable.', 500);
+
     const response = await (options.fetch ?? fetch)(getThinkFeelApiUrl('/personify', options.env), {
       method: 'POST',
       body: JSON.stringify({ personaId, raw: request.raw }),
@@ -60,10 +62,8 @@ export async function runPersonify(request: PersonifyRequest, options: ServiceOp
     });
 
     if (!response.ok) throw new AppError('provider', await readProviderError(response), 502);
-
     const body = (await response.json()) as { chunks?: unknown; personified?: unknown };
     if (typeof body.personified !== 'string') throw new AppError('provider', 'Personify response was missing text.', 502);
-
     const chunks = Array.isArray(body.chunks) ? body.chunks.filter(chunk => typeof chunk === 'string') : [];
     return { chunks, model: personaId, personified: body.personified };
   } catch (error) {
@@ -78,10 +78,10 @@ export async function runChat(request: ChatRequest, options: ServiceOptions = {}
     const model = getThinkFeelCompletionModel(personaId, options);
     const prompt = formatMessagesAsCompletionPrompt(request.messages);
     const { text } = await generateText({ model, prompt });
-
     return { reply: text, model: personaId };
   } catch (error) {
     if (error instanceof AppError) throw error;
+
     if (error instanceof Error && error.message.includes('THINKFEEL_API_KEY'))
       throw new AppError('config', error.message, 500);
 
