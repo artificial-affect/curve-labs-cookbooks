@@ -2,7 +2,9 @@
   "private": true,
   "type": "module",
   "version": "0.1.0",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "name": "thinkfeel-ai-sdk-cookbook",
   "devDependencies": {
     "vitest": "^2.1.8",

@@ -1,8 +1,6 @@
 import { it, vi, expect, describe, afterEach } from 'vitest';
 import { POST as personifyPost } from '@/app/api/personify/route';
-
 const ORIGINAL_ENV = process.env;
-
 afterEach(() => {
   process.env = { ...ORIGINAL_ENV };
   vi.unstubAllGlobals();
@@ -11,14 +9,13 @@ afterEach(() => {
 describe('POST /api/personify', () => {
   it('returns 400 validation error when body is invalid JSON', async () => {
     const request = new Request('http://localhost/api/personify', {
-      method: 'POST',
       body: '{"raw":',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await personifyPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(400);
     expect(body.error.type).toBe('validation');
     expect(body.error.message).toContain('valid JSON');
@@ -31,11 +28,9 @@ describe('POST /api/personify', () => {
 
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe('https://example.thinkfeel.dev/api/v1/personify');
-
       const headers = new Headers(init?.headers);
       expect(headers.get('x-api-key')).toBe('test-key');
       expect(headers.get('content-type')).toBe('application/json');
-
       const body = JSON.parse(String(init?.body ?? '{}')) as { raw?: string; personaId?: string };
       expect(body.raw).toBe('base response');
       expect(body.personaId).toBe('persona-default');
@@ -49,14 +44,13 @@ describe('POST /api/personify', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const request = new Request('http://localhost/api/personify', {
-      method: 'POST',
       body: JSON.stringify({ raw: 'base response' }),
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await personifyPost(request);
     const body = (await response.json()) as { model: string; chunks: string[]; personified: string };
-
     expect(response.status).toBe(200);
     expect(body.personified).toBe('persona response');
     expect(body.chunks).toEqual(['persona response']);
@@ -81,14 +75,13 @@ describe('POST /api/personify', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const request = new Request('http://localhost/api/personify', {
+      body: JSON.stringify({ raw: 'base response', personaId: 'persona-from-request' }),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ raw: 'base response', personaId: 'persona-from-request' }),
     });
 
     const response = await personifyPost(request);
     const body = (await response.json()) as { model: string };
-
     expect(response.status).toBe(200);
     expect(body.model).toBe('persona-from-request');
   });
@@ -99,14 +92,13 @@ describe('POST /api/personify', () => {
     delete process.env.CURVE_PERSONA_ID;
 
     const request = new Request('http://localhost/api/personify', {
-      method: 'POST',
       body: JSON.stringify({ raw: 'base response' }),
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await personifyPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(500);
     expect(body.error.type).toBe('config');
     expect(body.error.message).toContain('THINKFEEL_PERSONA_ID');
@@ -122,14 +114,13 @@ describe('POST /api/personify', () => {
     );
 
     const request = new Request('http://localhost/api/personify', {
-      method: 'POST',
       body: JSON.stringify({ raw: 'base response' }),
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
     const response = await personifyPost(request);
     const body = (await response.json()) as { error: { type: string; message: string } };
-
     expect(response.status).toBe(502);
     expect(body.error.type).toBe('provider');
     expect(body.error.message).toContain('Unknown `personaId`');

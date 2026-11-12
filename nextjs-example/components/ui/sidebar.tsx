@@ -3,7 +3,12 @@ import { cn } from '@/src/lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { Button } from '@/components/ui/button';
 import { XIcon, PanelLeftIcon } from 'lucide-react';
+
 import {
+  type Dispatch,
+  type CSSProperties,
+  type ComponentProps,
+  type SetStateAction,
   useMemo,
   useState,
   useEffect,
@@ -11,10 +16,6 @@ import {
   useContext,
   useCallback,
   createContext,
-  type Dispatch,
-  type CSSProperties,
-  type ComponentProps,
-  type SetStateAction,
 } from 'react';
 
 const SIDEBAR_WIDTH = '16rem';
@@ -25,8 +26,8 @@ type SidebarContextValue = {
   open: boolean;
   isMobile: boolean;
   openMobile: boolean;
-  toggleSidebar: () => void;
   setOpenMobile: Dispatch<SetStateAction<boolean>>;
+  toggleSidebar: () => void;
 };
 
 const SidebarContext = createContext<SidebarContextValue | null>(null);
@@ -37,7 +38,6 @@ function useMobileQuery() {
   useEffect(() => {
     const media = window.matchMedia('(max-width: 767px)');
     const update = () => setIsMobile(media.matches);
-
     update();
     media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
@@ -49,7 +49,6 @@ function useMobileQuery() {
 export function useSidebar() {
   const context = useContext(SidebarContext);
   if (!context) throw new Error('useSidebar must be used within a SidebarProvider.');
-
   return context;
 }
 
@@ -173,11 +172,13 @@ function Sidebar({ className, children, ...props }: ComponentProps<'aside'>) {
 const SidebarInset = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn('flex h-dvh min-w-0 flex-1 flex-col overflow-hidden overscroll-none', className)} {...props} />
 ));
+
 SidebarInset.displayName = 'SidebarInset';
 
 const SidebarHeader = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ className, ...props }, ref) => (
   <header ref={ref} className={cn('flex shrink-0 flex-col', className)} {...props} />
 ));
+
 SidebarHeader.displayName = 'SidebarHeader';
 
 const SidebarContent = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ className, ...props }, ref) => (
@@ -187,38 +188,44 @@ const SidebarContent = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ clas
     {...props}
   />
 ));
+
 SidebarContent.displayName = 'SidebarContent';
 
 const SidebarFooter = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ className, ...props }, ref) => (
   <footer ref={ref} className={cn('mt-auto flex shrink-0 flex-col', className)} {...props} />
 ));
+
 SidebarFooter.displayName = 'SidebarFooter';
 
 const SidebarGroup = forwardRef<HTMLDivElement, ComponentProps<'section'>>(({ className, ...props }, ref) => (
   <section ref={ref} className={cn('space-y-2', className)} {...props} />
 ));
+
 SidebarGroup.displayName = 'SidebarGroup';
 
 const SidebarGroupLabel = forwardRef<HTMLHeadingElement, ComponentProps<'h2'>>(({ className, ...props }, ref) => (
   <h2 ref={ref} className={cn('mono-meta px-3 text-[10px] uppercase tracking-[0.16em]', className)} {...props} />
 ));
+
 SidebarGroupLabel.displayName = 'SidebarGroupLabel';
 
 const SidebarGroupContent = forwardRef<HTMLDivElement, ComponentProps<'div'>>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn('space-y-1', className)} {...props} />
 ));
+
 SidebarGroupContent.displayName = 'SidebarGroupContent';
 
 const SidebarMenu = forwardRef<HTMLUListElement, ComponentProps<'ul'>>(({ className, ...props }, ref) => (
   <ul ref={ref} className={cn('space-y-1', className)} {...props} />
 ));
+
 SidebarMenu.displayName = 'SidebarMenu';
 
 const SidebarMenuItem = forwardRef<HTMLLIElement, ComponentProps<'li'>>(({ className, ...props }, ref) => (
   <li ref={ref} className={cn('list-none', className)} {...props} />
 ));
-SidebarMenuItem.displayName = 'SidebarMenuItem';
 
+SidebarMenuItem.displayName = 'SidebarMenuItem';
 type SidebarMenuButtonProps = ComponentProps<'button'> & { asChild?: boolean; isActive?: boolean };
 
 const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
@@ -240,6 +247,7 @@ const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
     );
   }
 );
+
 SidebarMenuButton.displayName = 'SidebarMenuButton';
 
 const SidebarTrigger = forwardRef<HTMLButtonElement, ComponentProps<typeof Button>>(
@@ -265,6 +273,7 @@ const SidebarTrigger = forwardRef<HTMLButtonElement, ComponentProps<typeof Butto
     );
   }
 );
+
 SidebarTrigger.displayName = 'SidebarTrigger';
 
 export {

@@ -4,11 +4,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
-import { Fragment, useState, type SubmitEvent } from 'react';
+import { type SubmitEvent, Fragment, useState } from 'react';
 import { ApiAccessNote } from '@/app/components/api-access-note';
 import type { ApiErrorResponse, QuickstartResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
-
 type PromptPreset = { label: string; prompt: string };
 
 const promptPresets: PromptPreset[] = [
@@ -34,7 +33,6 @@ export function QuickstartForm() {
   async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!prompt.trim()) return;
-
     setIsLoading(true);
     setError('');
 

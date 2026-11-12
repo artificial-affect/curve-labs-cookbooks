@@ -8,12 +8,9 @@ export async function runAll(options = {}) {
   const runOpenAI = options.runOpenAI ?? testAISDK;
   const runThinkFeel = options.runThinkFeel ?? testThinkFeel;
   const config = options.config ?? loadRuntimeConfig(options.env);
-
   log('Running ThinkFeel cookbook checks...\n');
-
   const openaiResult = await runOpenAI(config, { log });
   const thinkfeelResult = await runThinkFeel(config, { log });
-
   return { openaiResult, thinkfeelResult };
 }
 
@@ -33,5 +30,4 @@ export async function main(options = {}) {
 }
 
 const isDirectExecution = typeof process.argv[1] === 'string' && import.meta.url === pathToFileURL(process.argv[1]).href;
-
 if (isDirectExecution) await main();

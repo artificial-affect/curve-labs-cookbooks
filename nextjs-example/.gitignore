@@ -1,5 +1,5 @@
-node_modules
-.prettierrc
-.DS_Store
-.env.*
 .next
+.env.*
+.DS_Store
+.prettierrc
+node_modules

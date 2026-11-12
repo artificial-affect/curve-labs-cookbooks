@@ -7,13 +7,10 @@ describe('ThinkFeel provider wiring', () => {
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const requestUrl = String(input);
       expect(requestUrl).toBe('https://example.thinkfeel.dev/api/v1/completions');
-
       const headers = new Headers(init?.headers);
       expect(headers.get('authorization')).toBe('Bearer test-key');
-
       const bodyRaw = String(init?.body ?? '');
       const body = JSON.parse(bodyRaw) as Record<string, unknown>;
-
       expect(body.model).toBe('persona-123');
       expect(body.stream).toBeUndefined();
       expect(body.tools).toBeUndefined();

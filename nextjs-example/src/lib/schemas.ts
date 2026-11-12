@@ -1,5 +1,4 @@
 import { z } from 'zod';
-
 const personaIdSchema = z.string().trim().min(1, 'personaId cannot be empty.').optional();
 
 export const quickstartRequestSchema = z.object({
@@ -24,6 +23,7 @@ export const chatRequestSchema = z
   })
   .superRefine((value, ctx) => {
     const last = value.messages[value.messages.length - 1];
+
     if (last?.role !== 'user')
       ctx.addIssue({ path: ['messages'], code: z.ZodIssueCode.custom, message: 'The last message role must be user.' });
   });

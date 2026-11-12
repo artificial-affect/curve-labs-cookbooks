@@ -1,4 +1,5 @@
 import { it, expect, describe } from 'vitest';
+
 import {
   resolvePersonaId,
   resolveThinkFeelConfig,
@@ -24,8 +25,8 @@ describe('ThinkFeel provider env configuration', () => {
       THINKFEEL_API_KEY: '   ',
       THINKFEEL_PERSONA_ID: 'persona-default',
     };
-    expect(() => createThinkFeelProvider({ env: blankApiKeyEnv })).toThrowError(/THINKFEEL_API_KEY/);
 
+    expect(() => createThinkFeelProvider({ env: blankApiKeyEnv })).toThrowError(/THINKFEEL_API_KEY/);
     const missingApiKeyEnv: NodeJS.ProcessEnv = { NODE_ENV: 'test', THINKFEEL_PERSONA_ID: 'persona-default' };
     expect(() => createThinkFeelProvider({ env: missingApiKeyEnv })).toThrowError(/THINKFEEL_API_KEY/);
   });
@@ -40,7 +41,6 @@ describe('ThinkFeel provider env configuration', () => {
   it('falls back to legacy CURVE environment variables', () => {
     const env: NodeJS.ProcessEnv = { NODE_ENV: 'test', CURVE_API_KEY: 'legacy-key', CURVE_PERSONA_ID: 'legacy-persona' };
     const config = resolveThinkFeelConfig(env);
-
     expect(config.apiKey).toBe('legacy-key');
     expect(config.defaultPersonaId).toBe('legacy-persona');
   });
@@ -48,14 +48,13 @@ describe('ThinkFeel provider env configuration', () => {
   it('treats blank THINKFEEL environment variables as missing before legacy fallback', () => {
     const env: NodeJS.ProcessEnv = {
       NODE_ENV: 'test',
-      THINKFEEL_API_KEY: '   ',
-      THINKFEEL_PERSONA_ID: '   ',
       CURVE_API_KEY: 'legacy-key',
       CURVE_PERSONA_ID: 'legacy-persona',
+      THINKFEEL_API_KEY: '   ',
+      THINKFEEL_PERSONA_ID: '   ',
     };
 
     const config = resolveThinkFeelConfig(env);
-
     expect(config.apiKey).toBe('legacy-key');
     expect(config.defaultPersonaId).toBe('legacy-persona');
   });
@@ -64,13 +63,12 @@ describe('ThinkFeel provider env configuration', () => {
     const env: NodeJS.ProcessEnv = {
       NODE_ENV: 'test',
       CURVE_API_KEY: 'legacy-key',
-      THINKFEEL_API_KEY: 'new-key',
       CURVE_PERSONA_ID: 'legacy-persona',
+      THINKFEEL_API_KEY: 'new-key',
       THINKFEEL_PERSONA_ID: 'new-persona',
     };
 
     const config = resolveThinkFeelConfig(env);
-
     expect(config.apiKey).toBe('new-key');
     expect(config.defaultPersonaId).toBe('new-persona');
   });

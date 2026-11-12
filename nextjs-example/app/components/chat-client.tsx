@@ -8,13 +8,10 @@ import { ApiAccessNote } from '@/app/components/api-access-note';
 import { Send, RotateCcw, Loader2Icon, MessageCircleMore } from 'lucide-react';
 import type { ChatMessage, ChatResponse, ApiErrorResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
-import { useRef, Fragment, useState, useEffect, type SubmitEvent, type KeyboardEvent } from 'react';
-
+import { type SubmitEvent, type KeyboardEvent, useRef, Fragment, useState, useEffect } from 'react';
 type Turn = ChatMessage & { id: string };
 type PromptPreset = { label: string; message: string };
-
-const createTurnId = () =>
-  typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36);
+const createTurnId = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36));
 
 const starterMessages: PromptPreset[] = [
   {
@@ -35,7 +32,6 @@ export function ChatClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Turn[]>([]);
   const [selectedStarterIndex, setSelectedStarterIndex] = useState<number>(0);
-
   const formRef = useRef<HTMLFormElement>(null);
   const transcriptRef = useRef<HTMLUListElement>(null);
   const hasTranscriptContent = messages.length > 0 || isLoading;
@@ -43,19 +39,16 @@ export function ChatClient() {
   useEffect(() => {
     const element = transcriptRef.current;
     if (!element) return;
-
     element.scrollTop = element.scrollHeight;
   }, [messages.length, isLoading]);
 
   async function sendMessage(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!input.trim() || isLoading) return;
-    const outgoingTurn: Turn = { role: 'user', id: createTurnId(), content: input.trim() };
-
+    const outgoingTurn: Turn = { id: createTurnId(), role: 'user', content: input.trim() };
     const history = [...messages, outgoingTurn];
     setMessages(history);
     setInput('');
-
     setIsLoading(true);
     setError('');
 
@@ -72,7 +65,7 @@ export function ChatClient() {
       }
 
       const body = (await response.json()) as ChatResponse;
-      setMessages(previous => [...previous, { role: 'assistant', id: createTurnId(), content: body.reply }]);
+      setMessages(previous => [...previous, { id: createTurnId(), role: 'assistant', content: body.reply }]);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Request failed.');
     } finally {
@@ -83,7 +76,6 @@ export function ChatClient() {
   function resetConversation() {
     setMessages([]);
     setInput(starterMessages[selectedStarterIndex].message);
-
     setError('');
   }
 

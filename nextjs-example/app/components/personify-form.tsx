@@ -4,25 +4,24 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, WandSparkles } from 'lucide-react';
-import { Fragment, useState, type SubmitEvent } from 'react';
+import { type SubmitEvent, Fragment, useState } from 'react';
 import { ApiAccessNote } from '@/app/components/api-access-note';
 import type { ApiErrorResponse, PersonifyResponse } from '@/src/lib/types';
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
-
 type RawPreset = { raw: string; label: string };
 
 const rawPresets: RawPreset[] = [
   {
-    label: 'Support',
     raw: 'Your API key may be expired or missing from the Authorization header. Regenerate it in Playground and retry the request.',
+    label: 'Support',
   },
   {
-    label: 'Coach',
     raw: 'Take one small step first. Write down the task, choose the easiest part, and work on it for ten minutes.',
+    label: 'Coach',
   },
   {
-    label: 'Product',
     raw: 'The new endpoint rewrites a base model response into the selected persona voice while preserving the original meaning.',
+    label: 'Product',
   },
 ];
 
@@ -35,7 +34,6 @@ export function PersonifyForm() {
 
   async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-
     if (!raw.trim()) return;
     setIsLoading(true);
     setError('');
